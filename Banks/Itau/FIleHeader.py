@@ -1,8 +1,12 @@
-import simplejson as json
+import json
 from datetime import datetime
 
 
 class FileHeader:
+    default_date_format = "%d%m%Y"
+    default_datetime_format = "%d%m%Y %H%M%S"
+    default_time_format = "%H%M%S"
+
     def __init__(self, data):
         self.data = data
         self.attributes = {
@@ -13,6 +17,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 0,
+                'end': 3,
             },
             'lot_code': {
                 'type': 'int',
@@ -20,7 +26,9 @@ class FileHeader:
                 'default': 0000,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': False,                
+                'required': False,
+                'start': 3,
+                'end': 7,
             },
             'register_type': {
                 'type': 'int',
@@ -29,6 +37,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 7,
+                'end': 8,
             },
             'register_type_whites': {
                 'type': 'string',
@@ -37,6 +47,8 @@ class FileHeader:
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
+                'start': 8,
+                'end': 14,
             },
             'file_layout': {
                 'type': 'int',
@@ -45,6 +57,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
+                'start': 14,
+                'end': 17,
             },
             'company_description': {
                 'type': 'int',
@@ -53,6 +67,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
+                'start': 17,
+                'end': 18,
             },
             'inscription_number': {
                 'type': 'int',
@@ -61,6 +77,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 18,
+                'end': 32,
             },
             'inscription_number_whites': {
                 'type': 'string',
@@ -69,6 +87,8 @@ class FileHeader:
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
+                'start': 32,
+                'end': 52,
             },
             'agency': {
                 'type': 'int',
@@ -77,6 +97,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 52,
+                'end': 57,
             },
             'agency_whites': {
                 'type': 'string',
@@ -85,6 +107,8 @@ class FileHeader:
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
+                'start': 57,
+                'end': 58,
             },
             'account': {
                 'type': 'int',
@@ -93,6 +117,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 58,
+                'end': 70,
             },
             'account_whites': {
                 'type': 'string',
@@ -101,6 +127,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
+                'start': 70,
+                'end': 71,
             },
             'dac': {
                 'type': 'int',
@@ -109,6 +137,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 71,
+                'end': 72,
             },
             'company_name': {
                 'type': 'string',
@@ -117,6 +147,8 @@ class FileHeader:
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': True,
+                'start': 72,
+                'end': 102,
             },
             'bank_name': {
                 'type': 'string',
@@ -125,6 +157,8 @@ class FileHeader:
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': True,
+                'start': 102,
+                'end': 132,
             },
             'bank_name_whites': {
                 'type': 'string',
@@ -133,6 +167,8 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
+                'start': 132,
+                'end': 142,
             },
             'file_code': {
                 'type': 'int',
@@ -141,75 +177,58 @@ class FileHeader:
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
+                'start': 142,
+                'end': 143,
             },
             'generation_date': {
                 'type': 'date',
                 'length': 6,
-                'default': datetime.utcnow(),
+                'default': datetime.strptime(datetime.utcnow(), self.default_date_format),
                 'pad_content': '',
                 'pad_direction': 'left',
+                'required': False,
+                'start': 143,
+                'end': 151,
             },
-            'whites': {
-                'type': 'string',
+            'generation_hour': {
+                'type': 'date',
                 'length': 6,
-                'default': '',
-                'pad_content': 0,
+                'default': datetime.strptime(datetime.utcnow(), self.default_time_format),
+                'pad_content': '',
                 'pad_direction': 'left',
+                'required': False,
+                'start': 151,
+                'end': 157,
             },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
+            'generation_zeros': {
+                'type': 'int',
+                'length': 9,
+                'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
+                'required': False,
+                'start': 157,
+                'end': 166,
             },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
+            'density_unit': {
+                'type': 'int',
+                'length': 5,
+                'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
+                'required': False,
+                'start': 166,
+                'end': 171,
             },
-            'whites': {
+            'density_unit_whites': {
                 'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
+                'length': 69,
+                'default': ' ',
+                'pad_content': ' ',
                 'pad_direction': 'left',
-            },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
-            },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
-            },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
-            },'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
-            },
-            'whites': {
-                'type': 'string',
-                'length': 6,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
+                'required': False,
+                'start': 171,
+                'end': 240,
             },
         }
     
