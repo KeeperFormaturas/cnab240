@@ -1,0 +1,220 @@
+import simplejson as json
+from datetime import datetime
+
+
+class FileHeader:
+    def __init__(self, data):
+        self.data = data
+        self.attributes = {
+            'bank_code': {
+                'type': 'int',
+                'length': 3,
+                'default': 341,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'lot_code': {
+                'type': 'int',
+                'length': 4,
+                'default': 0000,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,                
+            },
+            'register_type': {
+                'type': 'int',
+                'length': 1,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'register_type_whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'file_layout': {
+                'type': 'int',
+                'length': 3,
+                'default': '081',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'company_description': {
+                'type': 'int',
+                'length': 1,
+                'default': 2,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'inscription_number': {
+                'type': 'int',
+                'length': 14,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'inscription_number_whites': {
+                'type': 'string',
+                'length': 20,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'agency': {
+                'type': 'int',
+                'length': 5,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'agency_whites': {
+                'type': 'string',
+                'length': 1,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'account': {
+                'type': 'int',
+                'length': 12,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'account_whites': {
+                'type': 'string',
+                'length': 1,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'dac': {
+                'type': 'int',
+                'length': 1,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'company_name': {
+                'type': 'string',
+                'length': 40,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'right',
+                'required': True,
+            },
+            'bank_name': {
+                'type': 'string',
+                'length': 30,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'right',
+                'required': True,
+            },
+            'bank_name_whites': {
+                'type': 'string',
+                'length': 10,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+            },
+            'file_code': {
+                'type': 'int',
+                'length': 1,
+                'default': 1, # 1 - Shipping / 2 - Return
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+            },
+            'generation_date': {
+                'type': 'date',
+                'length': 6,
+                'default': datetime.utcnow(),
+                'pad_content': '',
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+            'whites': {
+                'type': 'string',
+                'length': 6,
+                'default': '',
+                'pad_content': 0,
+                'pad_direction': 'left',
+            },
+        }
+    
+    def get_dict(self):
+        pass
+    
+    def get_json(self):
+        return json.dumps(self.get_dict())
