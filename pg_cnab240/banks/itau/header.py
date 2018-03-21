@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 
-class FileHeader:
+class Header:
     default_date_format = "%d%m%Y"
     default_datetime_format = "%d%m%Y %H%M%S"
     default_time_format = "%H%M%S"
@@ -19,6 +19,7 @@ class FileHeader:
                 'required': True,
                 'start': 0,
                 'end': 3,
+                'value': None,
             },
             'lot_code': {
                 'type': 'int',
@@ -29,6 +30,7 @@ class FileHeader:
                 'required': False,
                 'start': 3,
                 'end': 7,
+                'value': None,
             },
             'register_type': {
                 'type': 'int',
@@ -39,6 +41,7 @@ class FileHeader:
                 'required': True,
                 'start': 7,
                 'end': 8,
+                'value': None,
             },
             'register_type_whites': {
                 'type': 'string',
@@ -49,6 +52,7 @@ class FileHeader:
                 'required': False,
                 'start': 8,
                 'end': 14,
+                'value': None,
             },
             'file_layout': {
                 'type': 'int',
@@ -59,6 +63,7 @@ class FileHeader:
                 'required': False,
                 'start': 14,
                 'end': 17,
+                'value': None,
             },
             'company_description': {
                 'type': 'int',
@@ -69,6 +74,7 @@ class FileHeader:
                 'required': False,
                 'start': 17,
                 'end': 18,
+                'value': None,
             },
             'inscription_number': {
                 'type': 'int',
@@ -79,6 +85,7 @@ class FileHeader:
                 'required': True,
                 'start': 18,
                 'end': 32,
+                'value': None,
             },
             'inscription_number_whites': {
                 'type': 'string',
@@ -89,6 +96,7 @@ class FileHeader:
                 'required': False,
                 'start': 32,
                 'end': 52,
+                'value': None,
             },
             'agency': {
                 'type': 'int',
@@ -99,6 +107,7 @@ class FileHeader:
                 'required': True,
                 'start': 52,
                 'end': 57,
+                'value': None,
             },
             'agency_whites': {
                 'type': 'string',
@@ -109,6 +118,7 @@ class FileHeader:
                 'required': False,
                 'start': 57,
                 'end': 58,
+                'value': None,
             },
             'account': {
                 'type': 'int',
@@ -119,6 +129,7 @@ class FileHeader:
                 'required': True,
                 'start': 58,
                 'end': 70,
+                'value': None,
             },
             'account_whites': {
                 'type': 'string',
@@ -129,6 +140,7 @@ class FileHeader:
                 'required': False,
                 'start': 70,
                 'end': 71,
+                'value': None,
             },
             'dac': {
                 'type': 'int',
@@ -139,6 +151,7 @@ class FileHeader:
                 'required': True,
                 'start': 71,
                 'end': 72,
+                'value': None,
             },
             'company_name': {
                 'type': 'string',
@@ -149,6 +162,7 @@ class FileHeader:
                 'required': True,
                 'start': 72,
                 'end': 102,
+                'value': None,
             },
             'bank_name': {
                 'type': 'string',
@@ -159,6 +173,7 @@ class FileHeader:
                 'required': True,
                 'start': 102,
                 'end': 132,
+                'value': None,
             },
             'bank_name_whites': {
                 'type': 'string',
@@ -169,6 +184,7 @@ class FileHeader:
                 'required': False,
                 'start': 132,
                 'end': 142,
+                'value': None,
             },
             'file_code': {
                 'type': 'int',
@@ -179,6 +195,7 @@ class FileHeader:
                 'required': True,
                 'start': 142,
                 'end': 143,
+                'value': None,
             },
             'generation_date': {
                 'type': 'date',
@@ -189,6 +206,7 @@ class FileHeader:
                 'required': False,
                 'start': 143,
                 'end': 151,
+                'value': None,
             },
             'generation_hour': {
                 'type': 'date',
@@ -199,6 +217,7 @@ class FileHeader:
                 'required': False,
                 'start': 151,
                 'end': 157,
+                'value': None,
             },
             'generation_zeros': {
                 'type': 'int',
@@ -209,6 +228,7 @@ class FileHeader:
                 'required': False,
                 'start': 157,
                 'end': 166,
+                'value': None,
             },
             'density_unit': {
                 'type': 'int',
@@ -219,6 +239,7 @@ class FileHeader:
                 'required': False,
                 'start': 166,
                 'end': 171,
+                'value': None,
             },
             'density_unit_whites': {
                 'type': 'string',
@@ -229,11 +250,17 @@ class FileHeader:
                 'required': False,
                 'start': 171,
                 'end': 240,
+                'value': None,
             },
         }
+
+        self.associate_data()
+    
+    def associate_data(self):
+        pass
     
     def get_dict(self):
-        pass
+        return self.attributes
     
     def get_json(self):
         return json.dumps(self.get_dict())
