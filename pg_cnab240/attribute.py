@@ -30,11 +30,10 @@ class Attribute:
     
     def pad_value(self):
         if len(self.value) < self.length:
-            for i in range(0, self.length - len(self.value)):
-                if self.pad_direction == 'left':
-                    self.value = self.pad_content + self.value
-                else:
-                    self.value = self.value + self.pad_content
+            if self.pad_direction == 'left':
+                self.value = self.value.rjust(self.length, self.pad_content)
+            else:
+                self.value = self.value.ljust(self.length, self.pad_content)
     
     def get_value(self):
         return self.value
