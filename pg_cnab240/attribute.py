@@ -6,7 +6,7 @@ class Attribute:
         self.start = start
         self.end = end
         self.default_value = default_value
-        self.pad_content = pad_content
+        self.pad_content = str(pad_content)
         self.pad_direction = pad_direction
         self.required = required
         self.value = None
@@ -16,9 +16,25 @@ class Attribute:
     
     def set_value(self, new_value):
         if self.type == 'int':
-            self.value = new_value
+            self.value = int(new_value)
         elif self.type == 'string':
             self.value = str(new_value)
+        elif self.type == 'float':
+            self.value = str(round(float(new_value), 2)).replace('.', '')
+        elif self.type == 'whites':
+            self.value = ' '
+        
+        self.value = str(self.value)
+        
+        self.pad_value()
+    
+    def pad_value(self):
+        if len(self.value) < self.length:
+            for i in range(0, self.length - len(self.value)):
+                if self.pad_direction == 'left':
+                    self.value = self.pad_content + self.value
+                else:
+                    self.value = self.value + self.pad_content
     
     def get_value(self):
         return self.value

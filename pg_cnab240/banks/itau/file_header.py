@@ -1,16 +1,10 @@
-import json
 from datetime import datetime
-from pg_cnab240.attribute import Attribute
+from pg_cnab240.banks.itau.file_section import FileSection
 
 
-class Header:
-    default_date_format = "%d%m%Y"
-    default_datetime_format = "%d%m%Y %H%M%S"
-    default_time_format = "%H%M%S"
-
+class FileHeader(FileSection):
     def __init__(self, data):
-        self.data = data
-        self.attributes = {
+        super().__init__(data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -253,23 +247,6 @@ class Header:
                 'end': 240,
                 'value': None,
             },
-        }
+        })
         self.transform_attributes()
         self.associate_data()
-    
-    def transform_attributes(self):
-        for attr, data in self.attributes.items():
-            self.attributes[attr] = Attribute(attr, data['type'], data['length'], data['start'], data['end'], data['default'], data['pad_content'], data['pad_direction'], data['required'], self.default_datetime_format, self.default_date_format, self.default_time_format)
-    
-    def associate_data(self):
-        for name, attr in self.attributes.items():
-            if name in self.data:
-                self.attributes[attr].value = self.data['name']
-            elif attr.is_required():
-                raise Exception('The Header Attribute "' + name + '" is required')
-    
-    def get_dict(self):
-        return self.attributes
-    
-    def get_json(self):
-        return json.dumps(self.get_dict())
