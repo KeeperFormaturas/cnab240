@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from pg_cnab240.attribute import Attribute
 
 
 class Header:
@@ -44,7 +45,7 @@ class Header:
                 'value': None,
             },
             'register_type_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 6,
                 'default': '',
                 'pad_content': ' ',
@@ -88,7 +89,7 @@ class Header:
                 'value': None,
             },
             'inscription_number_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 20,
                 'default': '',
                 'pad_content': ' ',
@@ -110,7 +111,7 @@ class Header:
                 'value': None,
             },
             'agency_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 1,
                 'default': '',
                 'pad_content': ' ',
@@ -132,7 +133,7 @@ class Header:
                 'value': None,
             },
             'account_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 1,
                 'default': '',
                 'pad_content': 0,
@@ -176,7 +177,7 @@ class Header:
                 'value': None,
             },
             'bank_name_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 10,
                 'default': '',
                 'pad_content': 0,
@@ -242,7 +243,7 @@ class Header:
                 'value': None,
             },
             'density_unit_whites': {
-                'type': 'string',
+                'type': 'whites',
                 'length': 69,
                 'default': ' ',
                 'pad_content': ' ',
@@ -253,11 +254,19 @@ class Header:
                 'value': None,
             },
         }
-
+        self.transform_attributes()
         self.associate_data()
     
+    def transform_attributes(self):
+        for attr, data in self.attributes.items():
+            self.attributes[attr] = Attribute(attr, data['type'], data['length'], data['start'], data['end'], data['default'], data['pad_content'], data['pad_direction'], data['required'], self.default_datetime_format, self.default_date_format, self.default_time_format)
+    
     def associate_data(self):
-        pass
+        for name, attr in self.attributes.items():
+            if name in self.data:
+                self.attributes[attr].value = self.data['name']
+            elif attr.is_required():
+                raise Exception('The Header Attribute "' + name + '" is required')
     
     def get_dict(self):
         return self.attributes
