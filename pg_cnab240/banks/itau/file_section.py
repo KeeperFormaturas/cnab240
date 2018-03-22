@@ -18,7 +18,7 @@ class FileSection:
         if self.data:
             for name, attr in self.attributes.items():
                 if name in self.data:
-                    self.attributes[attr].value = self.data['name']
+                    self.attributes[attr].set_value(self.data[name])
                 elif attr.is_required():
                     raise Exception('The Header Attribute "' + name + '" is required')
     
