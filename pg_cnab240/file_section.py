@@ -3,7 +3,8 @@ from pg_cnab240.attribute import Attribute
 
 
 class FileSection:
-    def __init__(self, data, attributes):
+    def __init__(self, section_name, data, attributes):
+        self.section_name = section_name
         self.default_date_format = "%d%m%Y"
         self.default_datetime_format = "%d%m%Y %H%M%S"
         self.default_time_format = "%H%M%S"
@@ -20,7 +21,7 @@ class FileSection:
                 if name in self.data:
                     self.attributes[attr].set_value(self.data[name])
                 elif attr.is_required():
-                    raise Exception('The Header Attribute "' + name + '" is required')
+                    raise Exception('The ' + self.section_name + ' Attribute "' + name + '" is required')
     
     def get_dict(self):
         return self.attributes

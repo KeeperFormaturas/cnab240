@@ -1,10 +1,10 @@
 from datetime import datetime
-from pg_cnab240.banks.itau.file_section import FileSection
+from pg_cnab240.file_section import FileSection
 
 
 class FileFooter(FileSection):
     def __init__(self, data):
-        super().__init__(data, {
+        super().__init__('Footer', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,

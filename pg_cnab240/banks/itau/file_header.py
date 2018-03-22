@@ -1,10 +1,10 @@
 from datetime import datetime
-from pg_cnab240.banks.itau.file_section import FileSection
+from pg_cnab240.file_section import FileSection
 
 
 class FileHeader(FileSection):
     def __init__(self, data):
-        super().__init__(data, {
+        super().__init__('Header', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -195,7 +195,7 @@ class FileHeader(FileSection):
             'generation_date': {
                 'type': 'date',
                 'length': 6,
-                'default': datetime.strptime(datetime.utcnow(), self.default_date_format),
+                'default': datetime.utcnow().strftime(self.default_date_format),
                 'pad_content': '',
                 'pad_direction': 'left',
                 'required': False,
@@ -206,7 +206,7 @@ class FileHeader(FileSection):
             'generation_hour': {
                 'type': 'date',
                 'length': 6,
-                'default': datetime.strptime(datetime.utcnow(), self.default_time_format),
+                'default': datetime.utcnow().strftime(self.default_time_format),
                 'pad_content': '',
                 'pad_direction': 'left',
                 'required': False,
