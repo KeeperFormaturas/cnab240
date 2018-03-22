@@ -14,6 +14,9 @@ class Attribute:
     def is_required(self):
         return self.required
     
+    def get_value(self):
+        return self.value
+    
     def set_value(self, new_value):
         if self.type == 'int':
             self.value = int(new_value)
@@ -34,6 +37,3 @@ class Attribute:
                 self.value = self.value.rjust(self.length, self.pad_content)
             else:
                 self.value = self.value.ljust(self.length, self.pad_content)
-    
-    def get_value(self):
-        return self.value
