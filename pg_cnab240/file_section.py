@@ -28,3 +28,10 @@ class FileSection:
     
     def get_json(self):
         return json.dumps(self.get_dict())
+    
+    def get_required_attributes(self):
+        required_attributes = []
+        for attr_name, attr in self.attributes.items():
+            if attr.is_required():
+                required_attributes.append(attr)
+        return required_attributes
