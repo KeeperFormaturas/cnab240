@@ -1,10 +1,10 @@
 from datetime import datetime
-from pg_cnab240.file_section import FileSection
+from pg_cnab240.banks.itau.segments.segment_section import SegmentSection
 
 
-class FileHeader(FileSection):
+class TransferHeader(SegmentSection):
     def __init__(self, data):
-        super().__init__('FileHeader', data, {
+        super().__init__('TransferHeader', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -30,7 +30,7 @@ class FileHeader(FileSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 0,
+                'default': 1,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -38,40 +38,73 @@ class FileHeader(FileSection):
                 'end': 8,
                 'value': None,
             },
-            'register_type_whites': {
+            'operation_type': {
+                'type': 'string',
+                'length': 1,
+                'default': 'C',
+                'pad_content': '',
+                'pad_direction': 'left',
+                'required': False,
+                'start': 8,
+                'end': 9,
+                'value': None,
+            },
+            'payment_type': {
+                'type': 'int',
+                'length': 2,
+                'default': 20,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 9,
+                'end': 11,
+                'value': None,
+            },
+            'payment_way': {
+                'type': 'int',
+                'length': 2,
+                'default': 41,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 11,
+                'end': 13,
+                'value': None,
+            },
+            'lot_layout': {
+                'type': 'int',
+                'length': 3,
+                'default': '040',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 13,
+                'end': 16,
+                'value': None,
+            },
+            'lot_layout_whites': {
                 'type': 'whites',
-                'length': 6,
+                'length': 1,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
-                'start': 8,
-                'end': 14,
-                'value': None,
-            },
-            'file_layout': {
-                'type': 'int',
-                'length': 3,
-                'default': '081',
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': False,
-                'start': 14,
+                'start': 16,
                 'end': 17,
                 'value': None,
             },
-            'company_description': {
+            'company_document_type': {
                 'type': 'int',
                 'length': 1,
                 'default': 2,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': False,
+                'required': True,
                 'start': 17,
                 'end': 18,
                 'value': None,
             },
-            'inscription_number': {
+            'company_document': {
                 'type': 'int',
                 'length': 14,
                 'default': '',
@@ -80,39 +113,6 @@ class FileHeader(FileSection):
                 'required': True,
                 'start': 18,
                 'end': 32,
-                'value': None,
-            },
-            'inscription_number_whites': {
-                'type': 'whites',
-                'length': 20,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'left',
-                'required': False,
-                'start': 32,
-                'end': 52,
-                'value': None,
-            },
-            'agency': {
-                'type': 'int',
-                'length': 5,
-                'default': '',
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': True,
-                'start': 52,
-                'end': 57,
-                'value': None,
-            },
-            'agency_whites': {
-                'type': 'whites',
-                'length': 1,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'left',
-                'required': False,
-                'start': 57,
-                'end': 58,
                 'value': None,
             },
             'account': {
@@ -248,5 +248,4 @@ class FileHeader(FileSection):
                 'value': None,
             },
         })
-        self.transform_attributes()
-        self.associate_data()
+        pass

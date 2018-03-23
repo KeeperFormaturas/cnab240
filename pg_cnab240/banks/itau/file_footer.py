@@ -4,7 +4,7 @@ from pg_cnab240.file_section import FileSection
 
 class FileFooter(FileSection):
     def __init__(self, data):
-        super().__init__('Footer', data, {
+        super().__init__('FileFooter', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
