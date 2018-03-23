@@ -314,4 +314,3 @@ class TransferHeader(SegmentSection):
                 'value': None,
             },
         })
-        pass
