@@ -327,7 +327,7 @@ class SegmentA(SegmentSection):
         })
 
 
-class SegmentANF(SegmentSection): # TODO: FINISH SEGMENT A NF
+class SegmentANF(SegmentSection):
     def __init__(self, data):
         super().__init__('SegmentANF', data, {
             'bank_code': {
@@ -396,13 +396,13 @@ class SegmentANF(SegmentSection): # TODO: FINISH SEGMENT A NF
                 'end': 17,
                 'value': None,
             },
-            'assembly': {
-                'type': 'int',
+            'move_type_zeros': {
+                'type': 'zeros',
                 'length': 3,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 17,
                 'end': 20,
                 'value': None,
@@ -473,25 +473,14 @@ class SegmentANF(SegmentSection): # TODO: FINISH SEGMENT A NF
                 'end': 104,
                 'value': None,
             },
-            'ispb_code': {
-                'type': 'int',
+            'currency_zeros': {
+                'type': 'zeros',
                 'length': 5,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
-                'start': 104,
-                'end': 112,
-                'value': None,
-            },
-            'ispb_zeros': {
-                'type': 'zeros',
-                'length': 7,
-                'default': 0,
-                'pad_content': 0,
-                'pad_direction': 'left',
                 'required': False,
-                'start': 112,
+                'start': 104,
                 'end': 119,
                 'value': None,
             },
@@ -550,31 +539,31 @@ class SegmentANF(SegmentSection): # TODO: FINISH SEGMENT A NF
                 'end': 177,
                 'value': None,
             },
-            'goal_detail': {
-                'type': 'string',
-                'length': 18,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
+            'nf_document': { # CNPJ
+                'type': 'int',
+                'length': 14,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
                 'required': True,
                 'start': 177,
-                'end': 195,
+                'end': 191,
                 'value': None,
             },
-            'goal_whites': {
+            'nf_document_whites': {
                 'type': 'whites',
-                'length': 2,
+                'length': 6,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
-                'start': 195,
+                'start': 191,
                 'end': 197,
                 'value': None,
             },
-            'payment_document_number': {
+            'document_number': { # doc/ted/io/cheque return number
                 'type': 'int',
-                'length': 8,
+                'length': 6,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
@@ -594,36 +583,25 @@ class SegmentANF(SegmentSection): # TODO: FINISH SEGMENT A NF
                 'end': 217,
                 'value': None,
             },
-            'doc_goal': {
-                'type': 'string',
-                'length': 2,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': False,
+            'identify_type': {
+                'type': 'int',
+                'length': 1,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
                 'start': 217,
-                'end': 219,
+                'end': 218,
                 'value': None,
             },
-            'ted_goal': {
-                'type': 'string',
-                'length': 5,
+            'identify_type_whites': {
+                'type': 'whites',
+                'length': 11,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
-                'start': 219,
-                'end': 224,
-                'value': None,
-            },
-            'ted_whites': {
-                'type': 'whites',
-                'length': 5,
-                'default': ' ',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': False,
-                'start': 224,
+                'start': 218,
                 'end': 229,
                 'value': None,
             },
