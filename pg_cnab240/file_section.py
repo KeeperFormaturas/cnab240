@@ -10,6 +10,10 @@ class FileSection:
         self.default_time_format = "%H%M%S"
         self.data = data
         self.attributes = attributes
+
+        self.transform_attributes()
+        if self.data is not None:
+            self.associate_data()
     
     def transform_attributes(self):
         for attr, data in self.attributes.items():
@@ -35,3 +39,7 @@ class FileSection:
             if attr.is_required():
                 required_attributes.append(attr)
         return required_attributes
+    
+    def set_data(self, data):
+        self.data = data
+        self.associate_data()

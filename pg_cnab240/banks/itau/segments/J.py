@@ -3,7 +3,7 @@ from pg_cnab240.banks.itau.segments.segment_section import SegmentSection
 
 
 class SegmentJ(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('SegmentJ', data, {
             'bank_code': {
                 'type': 'int',

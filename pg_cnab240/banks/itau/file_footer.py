@@ -3,7 +3,7 @@ from pg_cnab240.file_section import FileSection
 
 
 class FileFooter(FileSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('FileFooter', data, {
             'bank_code': {
                 'type': 'int',
@@ -83,5 +83,3 @@ class FileFooter(FileSection):
                 'value': None,
             },
         })
-        self.transform_attributes()
-        self.associate_data()

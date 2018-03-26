@@ -3,7 +3,7 @@ from pg_cnab240.file_section import FileSection
 
 
 class FileHeader(FileSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('FileHeader', data, {
             'bank_code': {
                 'type': 'int',
@@ -60,10 +60,10 @@ class FileHeader(FileSection):
                 'end': 17,
                 'value': None,
             },
-            'company_description': {
+            'company_document_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 2,
+                'default': 2, # 1 = CPF / 2 = CNPJ
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -71,7 +71,7 @@ class FileHeader(FileSection):
                 'end': 18,
                 'value': None,
             },
-            'inscription_number': {
+            'company_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': '',
@@ -137,7 +137,7 @@ class FileHeader(FileSection):
                 'end': 71,
                 'value': None,
             },
-            'dac': {
+            'dac': { # bank account digit
                 'type': 'int',
                 'length': 1,
                 'default': 0,
@@ -162,10 +162,10 @@ class FileHeader(FileSection):
             'bank_name': {
                 'type': 'string',
                 'length': 30,
-                'default': '',
+                'default': 'BANCO ITAU SA',
                 'pad_content': ' ',
                 'pad_direction': 'right',
-                'required': True,
+                'required': False,
                 'start': 102,
                 'end': 132,
                 'value': None,
@@ -248,5 +248,22 @@ class FileHeader(FileSection):
                 'value': None,
             },
         })
-        self.transform_attributes()
-        self.associate_data()
+        
+        self.bank = None
+    
+    def set_bank(self, bank):
+        self.bank = bank
+    
+    def set_data(self, company):
+        if not company:
+            raise Exception('Company cannot be None')
+        
+        super().set_data(dict(
+            bank_code = self.bank.code,
+            company_document_type = self.bank.get_company_document_type(company.document),
+            company_document_number = company.document,
+            agency = company.agency,
+            account = company.account,
+            dac = company.account_digit,
+            company_name = company.name,
+        ))

@@ -3,7 +3,7 @@ from pg_cnab240.banks.itau.segments.segment_section import SegmentSection
 
 
 class SegmentA(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('SegmentA', data, {
             'bank_code': {
                 'type': 'int',
@@ -258,7 +258,7 @@ class SegmentA(SegmentSection):
                 'end': 203,
                 'value': None,
             },
-            'inscription_number': {
+            'company_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': 0,
@@ -328,7 +328,7 @@ class SegmentA(SegmentSection):
 
 
 class SegmentANF(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('SegmentANF', data, {
             'bank_code': {
                 'type': 'int',
@@ -561,7 +561,7 @@ class SegmentANF(SegmentSection):
                 'end': 197,
                 'value': None,
             },
-            'document_number': { # doc/ted/io/cheque return number
+            'payment_document_number': { # doc/ted/io/cheque return number
                 'type': 'int',
                 'length': 6,
                 'default': 0,
@@ -572,7 +572,7 @@ class SegmentANF(SegmentSection):
                 'end': 203,
                 'value': None,
             },
-            'inscription_number': {
+            'company_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': 0,
