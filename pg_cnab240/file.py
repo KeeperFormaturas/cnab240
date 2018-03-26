@@ -12,7 +12,8 @@ class File:
         self.segment = self.import_segment(payment_type)
     
     def import_bank(self, bank):
-        return __import__('banks.' + bank + '.' + bank + '.' + bank)
+        bankClass =  __import__('banks.' + bank + '.' + bank + '.' + bank)
+        return bankClass()
 
     def import_header(self):
         pass
