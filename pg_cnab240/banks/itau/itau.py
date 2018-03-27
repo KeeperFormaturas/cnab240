@@ -12,8 +12,7 @@ class itau(Bank):
     def get_file_header(self):
         return FileHeader()
     
-    def get_company_document_type(self, document_number):
-        document_type = super().get_company_document_type(document_number)
+    def get_company_document_id(self, document_type):
         if document_type == 'cnpj':
             return 2
         return 1 # cpf

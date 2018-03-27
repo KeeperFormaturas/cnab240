@@ -260,7 +260,7 @@ class FileHeader(FileSection):
         
         super().set_data(dict(
             bank_code = self.bank.code,
-            company_document_type = self.bank.get_company_document_type(company.document),
+            company_document_type = self.bank.get_company_document_id(company.document_type),
             company_document_number = company.document,
             agency = company.agency,
             account = company.account,
