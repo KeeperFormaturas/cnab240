@@ -39,4 +39,4 @@ class Payment:
     def get_attribute(self, attr_name):
         if attr_name in self.attributes.keys():
             return self.attributes[attr_name]
-        raise Exception('Payment does not have this attribute')
+        raise Exception('Payment does not have attribute called "' + attr_name + '"')
