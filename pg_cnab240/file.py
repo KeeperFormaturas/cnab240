@@ -1,39 +1,40 @@
 import pg_cnab240.banks
 
 class File:
-    def __init__(self, bank, payment_type, company=None, payments=[]):
+    def __init__(self, bank, company=None, payments=[]):
         self.company = company
         self.payments = payments
 
         self.bank = self.import_bank(bank)
         self.header = self.import_header()
         self.footer = self.import_footer()
-
-        self.segment = self.import_segment(payment_type)
     
     def import_bank(self, bank):
         bankClass =  __import__('banks.' + bank + '.' + bank + '.' + bank)
         return bankClass()
 
     def import_header(self):
-        pass
+        self.header = self.bank.get_file_header()
     
     def import_footer(self):
-        pass
-    
-    def import_segment(self, payment_type):
-        pass
+        self.footer = self.bank.get_file_footer()
     
     def verify(self):
-        if self.header is None or self.segment is None or self.footer is None:
-            raise Exception('Header, Segment and Footer cannot be None')
+        if self.header is None or self.footer is None:
+            raise Exception('Header and Footer cannot be None')
         return True
+    
+    def process_payments(self):
+        pass
 
     def generate(self):
         self.verify()
 
         # populate header
         self.header.set_data(self.company)
+
+        # process payments
+        self.process_payments()
         pass
     
     def read(self, file_content):

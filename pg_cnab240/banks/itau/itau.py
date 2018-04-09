@@ -10,7 +10,12 @@ class itau(Bank):
         super().__init__('Itaú', 'itau', 341)
     
     def get_file_header(self):
-        return FileHeader()
+        file_header = FileHeader()
+        file_header.set_bank(self)
+        return file_header
+    
+    def get_file_footer(self):
+        return FileFooter()
     
     def get_company_document_id(self, document_type):
         if document_type == 'cnpj':
