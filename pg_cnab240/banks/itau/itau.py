@@ -16,3 +16,12 @@ class itau(Bank):
         if document_type == 'cnpj':
             return 2
         return 1 # cpf
+    
+    def get_payment_segment(self, payment_type):
+        if payment_type == 'slip':
+            return 'J'
+        elif payment_type == 'doc' or payment_type == 'ted' or payment_type == 'transfer':
+            return 'A'
+        elif payment_type == 'nf':
+            return 'ANF'
+        return None

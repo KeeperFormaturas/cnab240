@@ -170,7 +170,7 @@ class SegmentA(SegmentSection):
                 'end': 119,
                 'value': None,
             },
-            'paid_value': {
+            'payment_amount': {
                 'type': 'float',
                 'length': 15,
                 'default': 0,
@@ -214,7 +214,7 @@ class SegmentA(SegmentSection):
                 'end': 162,
                 'value': None,
             },
-            'effective_paid_value': {
+            'effective_paid_amount': {
                 'type': 'float',
                 'length': 15,
                 'default': 0,
@@ -484,7 +484,7 @@ class SegmentANF(SegmentSection):
                 'end': 119,
                 'value': None,
             },
-            'paid_value': {
+            'payment_amount': {
                 'type': 'float',
                 'length': 15,
                 'default': 0,
@@ -528,7 +528,7 @@ class SegmentANF(SegmentSection):
                 'end': 162,
                 'value': None,
             },
-            'effective_paid_value': {
+            'effective_paid_amount': {
                 'type': 'float',
                 'length': 15,
                 'default': 0,

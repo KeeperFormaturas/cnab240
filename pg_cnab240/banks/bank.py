@@ -12,3 +12,6 @@ class Bank:
 
     def get_segment(self, segment):
         pass
+    
+    def get_payment_segment(self, payment_type):
+        pass
