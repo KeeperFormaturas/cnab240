@@ -1,5 +1,5 @@
 from datetime import datetime
-from pg_cnab240.banks.itau.segments.segment_section import SegmentSection
+from pg_cnab240.segment_section import SegmentSection
 
 
 class SegmentJ(SegmentSection):
