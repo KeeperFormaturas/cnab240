@@ -1,4 +1,4 @@
-# from Tests.ItauFileHeaderTestCase import ItauFileHeaderTestCase
+from tests.ItauFileTestCase import ItauFileTestCase
 import unittest
 
 

@@ -15,18 +15,20 @@ class Company:
         self.district = None
         self.city = None
         self.state = None
+        self.zipcode = None
         self.country = None
     
     def set_bank_acccount(self, bank_code, agency, account, account_digit):
         self.bank_account = BankAccount(bank_code, agency, account, account_digit)
     
-    def set_address(self, street, number, complement, district, city, state, country='BR'):
+    def set_address(self, street, number, complement, district, city, state, zipcode=None, country='BR'):
         self.street = street
         self.number = number
         self.complement = complement
         self.district = district
         self.city = city
         self.state = state
+        self.zipcode = zipcode
         self.country = country
     
     def get_company_document_type(self, document_number):

@@ -3,11 +3,12 @@ from pg_cnab240.attribute import Attribute
 
 
 class FileSection:
+    default_date_format = "%d%m%Y"
+    default_datetime_format = "%d%m%Y %H%M%S"
+    default_time_format = "%H%M%S"
+
     def __init__(self, section_name, data, attributes):
         self.section_name = section_name
-        self.default_date_format = "%d%m%Y"
-        self.default_datetime_format = "%d%m%Y %H%M%S"
-        self.default_time_format = "%H%M%S"
         self.data = data
         self.attributes = attributes
 

@@ -1,4 +1,4 @@
-import pg_cnab240.banks
+from pydoc import locate
 
 class File:
     def __init__(self, bank, company=None, payments=[]):
@@ -10,7 +10,7 @@ class File:
         self.footer = self.import_footer()
     
     def import_bank(self, bank):
-        bankClass =  __import__('banks.' + bank + '.' + bank + '.' + bank)
+        bankClass =  locate('pg_cnab240.banks.' + bank + '.' + bank + '.' + bank)
         return bankClass()
 
     def import_header(self):
@@ -25,6 +25,7 @@ class File:
         return True
     
     def process_payments(self):
+        # TODO:
         pass
 
     def generate(self):
