@@ -30,11 +30,13 @@ class Attribute:
         elif self.type == 'whites':
             self.value = ' '
         
-        self.value = str(self.value).upper
+        self.value = str(self.value)
 
         self.clean_value()
         
         self.pad_value()
+
+        self.value = self.value.upper # transform to upper case
     
     def clean_value(self):
         # remove special chars
