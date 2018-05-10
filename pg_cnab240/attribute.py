@@ -30,7 +30,7 @@ class Attribute:
         elif self.type == 'whites':
             self.value = ' '
         
-        self.value = str(self.value)
+        self.value = str(self.value).upper
 
         self.clean_value()
         
