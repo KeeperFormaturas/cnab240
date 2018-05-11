@@ -5,8 +5,11 @@ class Payment:
             pay_date = None,
             effective_pay_date = None,
             favored_name = None,
+            favored_document_number = None,
             favored_bank = None,
             agency = None,
+            account = None,
+            account_digit = None,
             our_number = None,
             currency_type = 'BRA',
             your_number = None,
@@ -29,6 +32,8 @@ class Payment:
             payment_amount = None,
             favored_message = None,
             occurrences = None,
+            move_type = None,
+            assembly = None,
         )
 
         kwargs_keys = kwargs.keys()
