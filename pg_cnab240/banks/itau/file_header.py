@@ -187,7 +187,7 @@ class FileHeader(FileSection):
                 'default': 1, # 1 - Shipping / 2 - Return
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 142,
                 'end': 143,
                 'value': None,
