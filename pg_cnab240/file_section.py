@@ -24,7 +24,7 @@ class FileSection:
         if self.data:
             for name, attr in self.attributes.items():
                 if name in self.data:
-                    self.attributes[attr].set_value(self.data[name])
+                    self.attributes[name].set_value(self.data[name])
                 elif attr.is_required():
                     raise Exception('The ' + self.section_name + ' Attribute "' + name + '" is required')
     
