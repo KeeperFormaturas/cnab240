@@ -262,8 +262,8 @@ class FileHeader(FileSection):
             bank_code = self.bank.code,
             company_document_type = self.bank.get_company_document_id(company.document_type),
             company_document_number = company.document,
-            agency = company.agency,
-            account = company.account,
-            dac = company.account_digit,
+            agency = company.bank_account.agency,
+            account = company.bank_account.account,
+            dac = company.bank_account.digit,
             company_name = company.name,
         ))
