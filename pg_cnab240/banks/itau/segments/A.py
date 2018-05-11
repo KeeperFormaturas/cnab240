@@ -66,7 +66,7 @@ class SegmentA(SegmentSection):
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 14,
                 'end': 17,
                 'value': None,
@@ -77,7 +77,7 @@ class SegmentA(SegmentSection):
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 17,
                 'end': 20,
                 'value': None,
@@ -258,7 +258,7 @@ class SegmentA(SegmentSection):
                 'end': 203,
                 'value': None,
             },
-            'company_document_number': {
+            'favored_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': 0,
@@ -572,7 +572,7 @@ class SegmentANF(SegmentSection):
                 'end': 203,
                 'value': None,
             },
-            'company_document_number': {
+            'favored_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': 0,
