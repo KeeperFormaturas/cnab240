@@ -150,7 +150,7 @@ class FileHeader(FileSection):
             },
             'company_name': {
                 'type': 'string',
-                'length': 40,
+                'length': 30,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
@@ -194,7 +194,7 @@ class FileHeader(FileSection):
             },
             'generation_date': {
                 'type': 'date',
-                'length': 6,
+                'length': 8,
                 'default': datetime.utcnow().strftime(self.default_date_format),
                 'pad_content': ' ',
                 'pad_direction': 'left',
