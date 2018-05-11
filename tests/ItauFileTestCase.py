@@ -152,7 +152,10 @@ class ItauFileTestCase(unittest.TestCase):
     def test_1_generate_header(self):
         payment_file = File('itau', company)
         payment_file.header.set_data(company)
-        assert '200' in '200'
+        header_line = payment_file.header.to_line()
+        print(header_line)
+        print(len(header_line))
+        assert '240' in str(len(header_line))
 
 
 if __name__ == '__main__':
