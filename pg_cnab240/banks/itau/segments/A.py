@@ -391,7 +391,7 @@ class SegmentANF(SegmentSection):
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 14,
                 'end': 17,
                 'value': None,
