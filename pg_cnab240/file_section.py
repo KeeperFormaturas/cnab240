@@ -29,10 +29,19 @@ class FileSection:
                     raise Exception('The ' + self.section_name + ' Attribute "' + name + '" is required')
     
     def get_dict(self):
-        return self.attributes
+        response = dict()
+        for attr_name, attr in self.attributes.items():
+            response[attr_name] = attr.get_value()
+        return response
     
     def get_json(self):
         return json.dumps(self.get_dict())
+    
+    def to_line(self):
+        line = ''
+        for attr_name, attr in self.attributes.items():
+            line += attr.get_value()
+        return line
     
     def get_required_attributes(self):
         required_attributes = []
