@@ -13,11 +13,14 @@ class Attribute:
         self.pad_direction = pad_direction
         self.required = required
         self.value = None
-    
+
     def is_required(self):
         return self.required
     
     def get_value(self):
+        if self.value:
+            return self.value
+        self.set_value(self.default_value)
         return self.value
     
     def set_value(self, new_value):
@@ -29,6 +32,8 @@ class Attribute:
             self.value = str(round(float(new_value), 2)).replace('.', '')
         elif self.type == 'whites':
             self.value = ' '
+        elif self.type == 'date':
+            self.value = str(new_value)
         
         self.value = str(self.value)
 
@@ -36,7 +41,7 @@ class Attribute:
         
         self.pad_value()
 
-        self.value = self.value.upper # transform to upper case
+        self.value = self.value.upper() # transform to upper case
     
     def clean_value(self):
         # remove special chars
