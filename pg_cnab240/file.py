@@ -10,14 +10,15 @@ class File:
         self.footer = self.import_footer()
     
     def import_bank(self, bank):
-        bankClass =  locate('pg_cnab240.banks.' + bank + '.' + bank + '.' + bank)
+        bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
+        bankClass = getattr(bankClassFile, bank)
         return bankClass()
 
     def import_header(self):
-        self.header = self.bank.get_file_header()
+        return self.bank.get_file_header()
     
     def import_footer(self):
-        self.footer = self.bank.get_file_footer()
+        return self.bank.get_file_footer()
     
     def verify(self):
         if self.header is None or self.footer is None:
