@@ -8,6 +8,36 @@ from pg_cnab240.banks.itau.segments.J import SegmentJ
 class itau(Bank):
     def __init__(self):
         super().__init__('Itaú', 'itau', 341)
+        super().set_segment('J', SegmentJ, {
+            'slip': '30',
+            'other_bank_slip': '31',
+        })
+        super().set_segment('ANF', SegmentANF, {
+            'nf': None,
+        })
+        super().set_segment('A', SegmentA, {
+            'cc': '01',
+            'admin_check': '02',
+            'doc': '03',
+            'poupanca': '05',
+            'ccd': '06',
+            'docd': '07',
+            'normal_darf': '16',
+            'simple_darf': '18',
+            'gps': '17',
+            'city_taxs': '19',
+            'darj': '21',
+            'gare': '22',
+            'ipva': '25',
+            'dpvat': '27',
+            'billing_title': '30',
+            'billing_title_other_bank': '31',
+            'fiscal_note': '32',
+            'fgts': '35',
+            'ted': '41',
+            'tedd': '43',
+            'gnre': '91',
+        })
     
     def get_file_header(self):
         file_header = FileHeader()
@@ -21,12 +51,3 @@ class itau(Bank):
         if document_type == 'cnpj':
             return 2
         return 1 # cpf
-    
-    def get_payment_segment(self, payment_type):
-        if payment_type == 'slip':
-            return 'J'
-        elif payment_type == 'doc' or payment_type == 'ted' or payment_type == 'transfer' or payment_type == 'tedd':
-            return 'A'
-        elif payment_type == 'nf':
-            return 'ANF'
-        return None
