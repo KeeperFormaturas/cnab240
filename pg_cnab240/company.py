@@ -3,6 +3,8 @@ from pg_cnab240.banks.bank_account import BankAccount
 
 class Company:
     def __init__(self, name, document):
+        self.name = name
+        
         self.document_type = self.get_company_document_type(document)
         self.document = document
 
