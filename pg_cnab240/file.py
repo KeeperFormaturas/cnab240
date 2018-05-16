@@ -32,9 +32,10 @@ class File:
         for payment in self.payments:
             # get bank payment segment
             payment_segment = self.bank.get_payment_segment(payment.get_attribute('payment_type'))
-            segment = payment_segment['segment_class'](payment.attributes)
+            segment = payment_segment['segment_class']()
             segment.set_bank(self.bank)
             segment.set_company(self.company)
+            segment.set_data(payment.attributes)
 
 
     def generate(self):
