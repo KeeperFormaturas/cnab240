@@ -3,7 +3,7 @@ from pg_cnab240.segment_section import SegmentSection
 
 
 class TransferHeader(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('TransferHeader', data, {
             'bank_code': {
                 'type': 'int',
@@ -319,20 +319,17 @@ class TransferHeader(SegmentSection):
         if not company:
             raise Exception('Company cannot be None')
         
-        if not self.data:
-            self.data = dict()
-        
-        self.data['company_document_type'] = self.bank.get_company_document_id(company.document_type)
-        self.data['company_document_number'] = company.document
-        self.data['agency'] = company.bank_account.agency
-        self.data['account'] = company.bank_account.account
-        self.data['dac'] = company.bank_account.digit
-        self.data['company_name'] = company.name
-        self.data['company_address_street'] = company.street
-        self.data['company_address_number'] = company.number
-        self.data['company_address_complement'] = company.complement
-        self.data['company_address_city'] = company.city
-        self.data['company_address_zipcode'] = company.zipcode
-        self.data['company_address_state'] = company.state
-        
-        super().set_data(self.data)
+        super().set_data(dict(
+            company_document_type = self.bank.get_company_document_id(company.document_type),
+            company_document_number = company.document,
+            agency = company.bank_account.agency,
+            account = company.bank_account.account,
+            dac = company.bank_account.digit,
+            company_name = company.name,
+            company_address_street = company.street,
+            company_address_number = company.number,
+            company_address_complement = company.complement,
+            company_address_city = company.city,
+            company_address_zipcode = company.zipcode,
+            company_address_state = company.state,
+        ))
