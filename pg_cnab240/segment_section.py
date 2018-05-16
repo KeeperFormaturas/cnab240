@@ -25,6 +25,8 @@ class SegmentSection(FileSection):
     
     def set_footer(self, footer):
         self.footer = footer
+        if hasattr(self.footer, 'associate_data'):
+            self.footer.associate_data(self.data)
     
     def set_footer_data(self, footer_data=dict()):
         if not self.footer:
