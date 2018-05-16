@@ -10,8 +10,11 @@ class FileSection:
     def __init__(self, section_name, data, attributes):
         self.bank = None
         self.section_name = section_name
-        self.data = data
         self.attributes = attributes
+        
+        self.data = data
+        if self.data is None:
+            self.data = dict()
 
         self.transform_attributes()
         if self.data is not None:
@@ -57,6 +60,7 @@ class FileSection:
     def set_bank(self, bank):
         self.bank = bank
     
-    def set_data(self, data):
-        self.data = data
+    def set_data(self, data=dict()):
+        for attribute, value in data.items():
+            self.data[attribute] = value
         self.associate_data()
