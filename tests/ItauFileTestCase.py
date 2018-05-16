@@ -19,7 +19,7 @@ class ItauFileTestCase(unittest.TestCase):
     
     def test_1_generate_header(self):
         payment_file = File('itau', company)
-        payment_file.header.set_data(company)
+        payment_file.header.set_company_data(company)
         header_line = payment_file.header.to_line()
         # print(header_line)
         # print(len(header_line))
