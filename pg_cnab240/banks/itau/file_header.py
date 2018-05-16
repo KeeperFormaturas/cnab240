@@ -253,11 +253,11 @@ class FileHeader(FileSection):
         if not company:
             raise Exception('Company cannot be None')
         
-        self.data['company_document_type'] = self.bank.get_company_document_id(company.document_type)
-        self.data['company_document_number'] = company.document
-        self.data['agency'] = company.bank_account.agency
-        self.data['account'] = company.bank_account.account
-        self.data['dac'] = company.bank_account.digit
-        self.data['company_name'] = company.name
-        
-        super().set_data(self.data)
+        super().set_data(dict(
+            company_document_type = self.bank.get_company_document_id(company.document_type),
+            company_document_number = company.document,
+            agency = company.bank_account.agency,
+            account = company.bank_account.account,
+            dac = company.bank_account.digit,
+            company_name = company.name,
+        ))
