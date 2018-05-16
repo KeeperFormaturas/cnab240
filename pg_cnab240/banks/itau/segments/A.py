@@ -1,5 +1,7 @@
 from datetime import datetime
 from pg_cnab240.segment_section import SegmentSection
+from pg_cnab240.banks.itau.segments.headers.transfer_header import TransferHeader
+from pg_cnab240.banks.itau.segments.footers.transfer_footer import TransferFooter
 
 
 class SegmentA(SegmentSection):
@@ -324,7 +326,7 @@ class SegmentA(SegmentSection):
                 'end': 240,
                 'value': None,
             },
-        })
+        }, TransferHeader, TransferFooter)
 
 
 class SegmentANF(SegmentSection):
@@ -627,4 +629,4 @@ class SegmentANF(SegmentSection):
                 'end': 240,
                 'value': None,
             },
-        })
+        }, TransferHeader, TransferFooter)

@@ -25,9 +25,15 @@ class File:
             raise Exception('Header and Footer cannot be None')
         return True
     
+    def add_payment(self, payment):
+        self.payments.append(payment)
+    
     def process_payments(self):
-        # TODO:
-        pass
+        for payment in self.payments:
+            # get bank payment segment
+            payment_segment = self.bank.get_payment_segment(payment.get_attribute('payment_type'))
+            segment = payment_segment['segment_class'](payment.attributes)
+
 
     def generate(self):
         self.verify()

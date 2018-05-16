@@ -1,5 +1,7 @@
 from datetime import datetime
 from pg_cnab240.segment_section import SegmentSection
+from pg_cnab240.banks.itau.segments.headers.slip_header import SlipHeader
+from pg_cnab240.banks.itau.segments.footers.slip_footer import SlipFooter
 
 
 class SegmentJ(SegmentSection):
@@ -269,4 +271,4 @@ class SegmentJ(SegmentSection):
                 'end': 240,
                 'value': None,
             },
-        })
+        }, SlipHeader, SlipFooter)
