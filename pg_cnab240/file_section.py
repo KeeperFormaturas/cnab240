@@ -8,6 +8,7 @@ class FileSection:
     default_time_format = "%H%M%S"
 
     def __init__(self, section_name, data, attributes):
+        self.bank = None
         self.section_name = section_name
         self.data = data
         self.attributes = attributes
@@ -22,6 +23,9 @@ class FileSection:
     
     def associate_data(self):
         if self.data:
+            if self.bank:
+                self.data['bank_code'] = self.bank.code
+             
             for name, attr in self.attributes.items():
                 if name in self.data:
                     self.attributes[name].set_value(self.data[name])
@@ -49,6 +53,9 @@ class FileSection:
             if attr.is_required():
                 required_attributes.append(attr)
         return required_attributes
+    
+    def set_bank(self, bank):
+        self.bank = bank
     
     def set_data(self, data):
         self.data = data

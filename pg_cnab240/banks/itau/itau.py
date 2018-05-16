@@ -45,7 +45,9 @@ class itau(Bank):
         return file_header
     
     def get_file_footer(self):
-        return FileFooter()
+        file_footer = FileFooter()
+        file_footer.set_bank(self)
+        return file_footer
     
     def get_company_document_id(self, document_type):
         if document_type == 'cnpj':

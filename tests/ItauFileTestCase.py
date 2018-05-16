@@ -27,7 +27,7 @@ class ItauFileTestCase(unittest.TestCase):
     
     def test_2_process_one_paymentA(self):
         payment_file = File('itau', company)
-        payment_file.header.set_data(company)
+        payment_file.header.set_company_data(company)
 
         payment = Payment(payment_type='ted', favored_name='felipe lucifero rosado eventos', favored_bank='033', agency='03875', account='000013006629', account_digit=0, your_number='5511972063805440', pay_date='10052018', ispb_code='90400888', payment_amount=2400.00, favored_document_number='21044237000144')
 

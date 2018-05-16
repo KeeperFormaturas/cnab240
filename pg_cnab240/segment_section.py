@@ -9,6 +9,9 @@ class SegmentSection(FileSection):
         if footer_class:
             self.footer = footer_class()
     
+    def set_company(self, company):
+        self.data['bank_code'] = company
+    
     def set_header(self, header):
         self.header = header
         if hasattr(self.header, 'associate_data'):
@@ -20,7 +23,8 @@ class SegmentSection(FileSection):
         self.header.associate_data(header_data)
     
     def get_header_line(self):
-        self.header.associate_data(self.data)
+        if not self.header.data:
+            self.header.associate_data(self.data)
         return self.header.to_line()
     
     def set_footer(self, footer):
@@ -34,5 +38,6 @@ class SegmentSection(FileSection):
         self.footer.associate_data(footer_data)
     
     def get_footer_line(self):
-        self.footer.associate_data(self.data)
+        if not self.footer.data:
+            self.footer.associate_data(self.data)
         return self.footer.to_line()

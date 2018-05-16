@@ -248,22 +248,16 @@ class FileHeader(FileSection):
                 'value': None,
             },
         })
-        
-        self.bank = None
-    
-    def set_bank(self, bank):
-        self.bank = bank
-    
-    def set_data(self, company):
+
+    def set_company_data(self, company):
         if not company:
             raise Exception('Company cannot be None')
         
-        super().set_data(dict(
-            bank_code = self.bank.code,
-            company_document_type = self.bank.get_company_document_id(company.document_type),
-            company_document_number = company.document,
-            agency = company.bank_account.agency,
-            account = company.bank_account.account,
-            dac = company.bank_account.digit,
-            company_name = company.name,
-        ))
+        self.data['company_document_type'] = self.bank.get_company_document_id(company.document_type)
+        self.data['company_document_number'] = company.document
+        self.data['agency'] = company.bank_account.agency
+        self.data['account'] = company.bank_account.account
+        self.data['dac'] = company.bank_account.digit
+        self.data['company_name'] = company.name
+        
+        super().set_data(self.data)
