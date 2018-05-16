@@ -3,7 +3,7 @@ from pg_cnab240.segment_section import SegmentSection
 
 
 class SlipHeader(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('SlipHeader', data, {
             'bank_code': {
                 'type': 'int',

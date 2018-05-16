@@ -3,7 +3,7 @@ from pg_cnab240.segment_section import SegmentSection
 
 
 class TransferFooter(SegmentSection):
-    def __init__(self, data):
+    def __init__(self, data=None):
         super().__init__('TransferFooter', data, {
             'bank_code': {
                 'type': 'int',
