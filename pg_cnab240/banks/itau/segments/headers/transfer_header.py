@@ -22,7 +22,7 @@ class TransferHeader(SegmentSection):
                 'default': 0000,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': False,
+                'required': True,
                 'start': 3,
                 'end': 7,
                 'value': None,
