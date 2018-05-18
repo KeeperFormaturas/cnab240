@@ -34,10 +34,13 @@ class ItauFileTestCase(unittest.TestCase):
         # add payment
         payment_file.add_payment(payment)
 
-        # process payment
-        payment_file.process_payments()
+        # generate
+        payment_file.generate()
 
-        assert '34100031C2041080 207179434000140                    00772 000000020070 5BF SERVICOS DE COBRANCA LTDA                                          Av Andromeda                  02000Bl84 andar     Barueri             06473000SP                  3410003300001A00000003303875 000013006629 0felipe lucifero rosado eventos5511972063805440    10052018REA904008880000000000000000240000                    00000000000000000000000                    00000021044237000144                       34100035         000003000000000000240000000000000000000000                                                                                                                                                                                     ' in ''
+        body_big_line = ''.join(payment_file.body)
+        print(body_big_line)
+
+        assert '34100031C2041040 207179434000140                    00772 000000020070 5BF SERVICOS DE COBRANCA LTDA                                          Av Andromeda                  02000Bl84 andar     Barueri             06473000SP                  3410003300001A00000003303875 000013006629 0felipe lucifero rosado eventos5511972063805440    10052018REA904008880000000000000000240000                    00000000000000000000000                    00000021044237000144                       34100035         000003000000000000240000000000000000000000                                                                                                                                                                                     ' in body_big_line
 
 
 if __name__ == '__main__':
