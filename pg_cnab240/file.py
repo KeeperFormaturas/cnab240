@@ -8,6 +8,7 @@ class File:
         self.bank = self.import_bank(bank)
         self.header = self.import_header()
         self.footer = self.import_footer()
+        self.count_lots = 1
     
     def import_bank(self, bank):
         bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
@@ -35,8 +36,12 @@ class File:
             segment = payment_segment['segment_class']()
             segment.set_bank(self.bank)
             segment.set_company(self.company)
-            segment.set_data(payment.attributes)
+            segment_data = payment.attributes
+            segment_data['register_number'] = self.count_lots
+            segment.set_data(segment_data)
 
+            # increment count_lots
+            self.count_lots += 1
 
     def generate(self):
         self.verify()
