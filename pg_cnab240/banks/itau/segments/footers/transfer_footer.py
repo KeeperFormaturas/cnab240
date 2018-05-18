@@ -30,7 +30,7 @@ class TransferFooter(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 5,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -52,10 +52,10 @@ class TransferFooter(SegmentSection):
             'registers_quantity': {
                 'type': 'int',
                 'length': 6,
-                'default': 0,
+                'default': 3,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 17,
                 'end': 23,
                 'value': None,
@@ -105,3 +105,12 @@ class TransferFooter(SegmentSection):
                 'value': None,
             },
         })
+    
+    def set_data(self, data=dict()):
+        if data is None:
+            data = dict()
+
+        # set total_amount
+        data['total_amount'] = data['payment_amount']
+
+        super().set_data(data)
