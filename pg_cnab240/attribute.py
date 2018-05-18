@@ -24,6 +24,9 @@ class Attribute:
         return self.value
     
     def set_value(self, new_value):
+        if new_value is None:
+            new_value = self.default_value
+        
         if self.type == 'int':
             self.value = int(new_value)
         elif self.type == 'string':
