@@ -32,9 +32,15 @@ class Attribute:
         elif self.type == 'string':
             self.value = str(new_value)
         elif self.type == 'float':
-            self.value = str(round(float(new_value), 2)).replace('.', '')
+            self.value = str(round(float(new_value), 2))
+            self.value = self.value.split('.')
+            if len(self.value[1]) < 2:
+                self.value[1] += '0'
+            self.value = ''.join(self.value)
         elif self.type == 'whites':
             self.value = ' '
+        elif self.type == 'zeros':
+            self.value = '0'
         elif self.type == 'date':
             self.value = str(new_value)
         
