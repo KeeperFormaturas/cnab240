@@ -314,22 +314,3 @@ class TransferHeader(SegmentSection):
                 'value': None,
             },
         })
-    
-    def set_company_data(self, company):
-        if not company:
-            raise Exception('Company cannot be None')
-        
-        super().set_data(dict(
-            company_document_type = self.bank.get_company_document_id(company.document_type),
-            company_document_number = company.document,
-            agency = company.bank_account.agency,
-            account = company.bank_account.account,
-            dac = company.bank_account.digit,
-            company_name = company.name,
-            company_address_street = company.street,
-            company_address_number = company.number,
-            company_address_complement = company.complement,
-            company_address_city = company.city,
-            company_address_zipcode = company.zipcode,
-            company_address_state = company.state,
-        ))
