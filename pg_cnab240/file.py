@@ -32,14 +32,24 @@ class File:
     
     def process_payments(self):
         for payment in self.payments:
+            register_number = 1
+            
             # get bank payment segment
             payment_segment = self.bank.get_payment_segment(payment.get_attribute('payment_type'))
             segment = payment_segment['segment_class']()
+
+            # set bank and company
             segment.set_bank(self.bank)
             segment.set_company(self.company)
+
+            # attr payment attributes
             segment_data = payment.attributes
-            segment_data['payment_type'] = payment_segment['payment_types'][payment.get_attribute('payment_type')]
-            segment_data['register_number'] = self.count_lots
+            segment_data['payment_way'] = payment_segment['payment_types'][payment.get_attribute('payment_type')]
+            del segment_data['payment_type']
+            
+            # set custom segment attributes
+            segment_data['lot_code'] = self.count_lots
+            segment_data['register_number'] = register_number
             segment.set_data(segment_data)
 
             # check header
@@ -58,11 +68,12 @@ class File:
     def generate(self):
         self.verify()
 
-        # populate header
-        self.header.set_data(self.company)
-
         # process payments
         self.process_payments()
+
+        # populate footer
+        # TODO:
+
         pass
     
     def read(self, file_content):
