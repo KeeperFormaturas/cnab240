@@ -11,7 +11,7 @@ class Payment:
             account = None,
             account_digit = None,
             our_number = None,
-            currency_type = 'BRA',
+            currency_type = 'REA',
             your_number = None,
             ispb_code = None,
             goal_detail = None,
