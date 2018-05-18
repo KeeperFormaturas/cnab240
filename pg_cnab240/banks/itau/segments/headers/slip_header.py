@@ -198,7 +198,7 @@ class SlipHeader(SegmentSection):
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
-                'required': True,
+                'required': False,
                 'start': 102,
                 'end': 132,
                 'value': None,

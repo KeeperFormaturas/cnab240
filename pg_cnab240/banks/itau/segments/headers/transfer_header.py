@@ -104,7 +104,7 @@ class TransferHeader(SegmentSection):
                 'end': 18,
                 'value': None,
             },
-            'company_document': {
+            'company_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': '',
@@ -209,7 +209,7 @@ class TransferHeader(SegmentSection):
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
-                'required': True,
+                'required': False,
                 'start': 102,
                 'end': 132,
                 'value': None,
