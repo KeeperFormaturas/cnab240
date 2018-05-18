@@ -8,6 +8,7 @@ class File:
         self.bank = self.import_bank(bank)
         self.header = self.import_header()
         self.footer = self.import_footer()
+        self.body = []
         self.count_lots = 1
     
     def import_bank(self, bank):
@@ -37,8 +38,19 @@ class File:
             segment.set_bank(self.bank)
             segment.set_company(self.company)
             segment_data = payment.attributes
+            segment_data['payment_type'] = payment_segment['payment_types'][payment.get_attribute('payment_type')]
             segment_data['register_number'] = self.count_lots
             segment.set_data(segment_data)
+
+            # check header
+            if hasattr(segment, 'get_header_line'):
+                self.body.append(segment.get_header_line())
+            
+            self.body.append(segment.to_line())
+
+            # check footer
+            if hasattr(segment, 'get_footer_line'):
+                self.body.append(segment.get_footer_line())
 
             # increment count_lots
             self.count_lots += 1
