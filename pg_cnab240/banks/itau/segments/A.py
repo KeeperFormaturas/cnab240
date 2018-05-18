@@ -32,7 +32,7 @@ class SegmentA(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 3,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -95,7 +95,7 @@ class SegmentA(SegmentSection):
                 'end': 23,
                 'value': None,
             },
-            'agency': {
+            'agency_account_digit': {
                 'type': 'string',
                 'length': 20,
                 'default': '',
@@ -152,7 +152,7 @@ class SegmentA(SegmentSection):
             },
             'ispb_code': {
                 'type': 'int',
-                'length': 5,
+                'length': 8,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
@@ -162,7 +162,7 @@ class SegmentA(SegmentSection):
                 'value': None,
             },
             'ispb_zeros': {
-                'type': 'zeros',
+                'type': 'int',
                 'length': 7,
                 'default': 0,
                 'pad_content': 0,
@@ -251,7 +251,7 @@ class SegmentA(SegmentSection):
             },
             'payment_document_number': {
                 'type': 'int',
-                'length': 8,
+                'length': 6,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
@@ -327,6 +327,13 @@ class SegmentA(SegmentSection):
                 'value': None,
             },
         }, TransferHeader, TransferFooter)
+    
+    def set_data(self, data=dict()):
+        if data is not None:
+            if 'agency' in data and 'account' in data and 'account_digit' in data:
+                data['agency_account_digit'] = str(data['agency']) + ' ' + str(data['account']) + ' ' + str(data['account_digit'])
+        
+        super().set_data(data)
 
 
 class SegmentANF(SegmentSection):
