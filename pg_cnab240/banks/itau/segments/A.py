@@ -286,7 +286,7 @@ class SegmentA(SegmentSection):
                 'type': 'string',
                 'length': 5,
                 'default': '',
-                'pad_content': 0,
+                'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
                 'start': 219,
