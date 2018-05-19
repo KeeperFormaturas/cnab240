@@ -72,11 +72,11 @@ class TransferFooter(SegmentSection):
                 'value': None,
             },
             'total_amount_zeros': {
-                'type': 'whites',
+                'type': 'zeros',
                 'length': 18,
                 'default': 0,
                 'pad_content': 0,
-                'pad_direction': 'left',
+                'pad_direction': 'right',
                 'required': False,
                 'start': 41,
                 'end': 59,
