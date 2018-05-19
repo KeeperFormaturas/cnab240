@@ -35,7 +35,7 @@ class File:
             register_number = 1
             
             # get bank payment segment
-            payment_segment = self.bank.get_payment_segment(payment.get_attribute('payment_type'))
+            payment_segment = self.bank.get_payment_segment(payment.get_attribute('type'))
             segment = payment_segment['segment_class']()
 
             # set bank and company
@@ -44,8 +44,7 @@ class File:
 
             # attr payment attributes
             segment_data = payment.attributes
-            segment_data['payment_way'] = payment_segment['payment_types'][payment.get_attribute('payment_type')]
-            del segment_data['payment_type']
+            segment_data['payment_way'] = payment_segment['payment_types'][payment.get_attribute('type')]
             
             # set custom segment attributes
             segment_data['lot_code'] = self.count_lots

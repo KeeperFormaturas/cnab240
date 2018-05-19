@@ -74,7 +74,7 @@ class SlipHeader(SegmentSection):
             'lot_layout': {
                 'type': 'int',
                 'length': 3,
-                'default': '040',
+                'default': '030',
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -104,7 +104,7 @@ class SlipHeader(SegmentSection):
                 'end': 18,
                 'value': None,
             },
-            'company_document': {
+            'company_document_number': {
                 'type': 'int',
                 'length': 14,
                 'default': '',

@@ -1,7 +1,7 @@
 class Payment:
     def __init__(self, **kwargs):
         self.attributes = dict(
-            payment_type = None,
+            type = None,
             pay_date = None,
             effective_pay_date = None,
             favored_name = None,

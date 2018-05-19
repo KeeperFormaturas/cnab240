@@ -32,7 +32,7 @@ class SegmentJ(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 3,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -87,7 +87,7 @@ class SegmentJ(SegmentSection):
             'currency_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 0,
+                'default': 9,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
