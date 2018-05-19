@@ -30,7 +30,7 @@ class ItauFileTestCase(unittest.TestCase):
         payment_file = File('itau', company)
         payment_file.header.set_company_data(company)
 
-        payment = Payment(payment_type='ted', favored_name='felipe lucifero rosado eventos', favored_bank='033', agency='03875', account='000013006629', account_digit=0, your_number='5511972063805440', pay_date='10052018', ispb_code='90400888', payment_amount=2400.00, favored_document_number='21044237000144')
+        payment = Payment(payment_type='ted', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, your_number='5511972063805440', pay_date='10052018', ispb_code='90400888', payment_amount=2400.00, favored_document_number='11111111111111')
 
         # add payment
         payment_file.add_payment(payment)
@@ -46,7 +46,7 @@ class ItauFileTestCase(unittest.TestCase):
         f.write(body_big_line)
         f.close()
 
-        assert '34100011C2041040 207179434000140                    03875 000013006629 3BF SERVICOS DE COBRANCA LTDA                                          AV ANDROMEDA                  02000BL84 ANDAR     BARUERI             06473000SP                  3410001300001A00000003303875 000013006629 0FELIPE LUCIFERO ROSADO EVENTOS5511972063805440    10052018REA904008880000000000000000240000                            000000000000000                    00000021044237000144                       34100015         000003000000000000240000000000000000000000                                                                                                                                                                                     ' in body_big_line
+        assert '34100011C2041040 207179434000140                    01111 000011111111 3BF SERVICOS DE COBRANCA LTDA                                          AV ANDROMEDA                  02000BL84 ANDAR     BARUERI             06473000SP                  3410001300001A00000003301111 000011111111 0CLIENTE TESTE                 5511972063805440    10052018REA904008880000000000000000240000                            000000000000000                    00000011111111111111                       34100015         000003000000000000240000000000000000000000                                                                                                                                                                                     ' in body_big_line
 
 
 if __name__ == '__main__':

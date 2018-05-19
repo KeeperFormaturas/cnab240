@@ -364,7 +364,7 @@ class SegmentANF(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 3,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -427,7 +427,7 @@ class SegmentANF(SegmentSection):
                 'end': 23,
                 'value': None,
             },
-            'agency': {
+            'agency_account_digit': {
                 'type': 'string',
                 'length': 20,
                 'default': '',
@@ -484,7 +484,7 @@ class SegmentANF(SegmentSection):
             },
             'currency_zeros': {
                 'type': 'zeros',
-                'length': 5,
+                'length': 15,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
@@ -637,3 +637,10 @@ class SegmentANF(SegmentSection):
                 'value': None,
             },
         }, TransferHeader, TransferFooter)
+    
+    def set_data(self, data=dict()):
+        if data is not None:
+            if 'agency' in data and 'account' in data and 'account_digit' in data:
+                data['agency_account_digit'] = str(data['agency']) + ' ' + str(data['account']) + ' ' + str(data['account_digit'])
+        
+        super().set_data(data)
