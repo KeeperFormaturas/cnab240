@@ -116,10 +116,10 @@ class TransferHeader(SegmentSection):
                 'value': None,
             },
             'entry_identification': {
-                'type': 'int',
+                'type': 'string',
                 'length': 4,
-                'default': 0,
-                'pad_content': 0,
+                'default': '',
+                'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
                 'start': 32,
