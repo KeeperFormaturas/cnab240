@@ -23,8 +23,7 @@ class ItauFileTestCase(unittest.TestCase):
         payment_file.header.set_company_data(company)
         header_line = payment_file.header.to_line()
         # print(header_line)
-        # print(len(header_line))
-        assert '240' in str(len(header_line))
+        assert '34100000      081207179434000140                    00772 000000069637 3BF SERVICOS DE COBRANCA LTDA  BANCO ITAU SA                           12105201821141800000000000000                                                                     ' in header_line
     
     def test_2_process_one_paymentA(self):
         payment_file = File('itau', company)
@@ -108,7 +107,7 @@ class ItauFileTestCase(unittest.TestCase):
 
         paymentANF = Payment(type='nf', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, pay_date='10052018', ispb_code='90400888', payment_amount=10067.60, dv='4', due_rule='7524', amount=10067.60, free_field='9485239700000007661190101', due_date='14052018', title_amount=10067.60, your_number='5511972063805440', nf_document='5646510065784320', favored_document_number='11111111111111')
 
-        # add payment
+        # add payments
         payment_file.add_payment(paymentA)
         payment_file.add_payment(paymentJ)
         payment_file.add_payment(paymentANF)
@@ -126,6 +125,29 @@ class ItauFileTestCase(unittest.TestCase):
         f.close()
 
         assert '34100011C2041040 207179434000140                    01111 000011111111 3BF SERVICOS DE COBRANCA LTDA                                          AV ANDROMEDA                  02000BL84 ANDAR     BARUERI             06473000SP                  3410001300001A00000003301111 000011111111 0CLIENTE TESTE                 5511972063805440    10052018REA904008880000000000000000240000                            000000000000000                    00000011111111111111                       34100015         000003000000000000240000000000000000000000                                                                                                                                                                                     34100021C2031030 207179434000140                    01111 000011111111 3BF SERVICOS DE COBRANCA LTDA                                          AV ANDROMEDA                  02000BL84 ANDAR     BARUERI             06473000SP                  3410002300001J00003394752400010067609485239700000007661190101CLIENTE TESTE                 14052018000000001006760000000000000000000000000000000100520180000000010067600000000000000005506715023835136                                          34100025         000003000000000001006760000000000000000000                                                                                                                                                                                     34100031C2041040 207179434000140                    01111 000011111111 3BF SERVICOS DE COBRANCA LTDA                                          AV ANDROMEDA                  02000BL84 ANDAR     BARUERI             06473000SP                  3410003300001A00000003301111 000011111111 0CLIENTE TESTE                 5511972063805440    10052018REA000000000000000000000001006760                            00000000000000056465100657843      000000111111111111112                      34100035         000003000000000001006760000000000000000000                                                                                                                                                                                     ' in body_big_line
+    
+    def test_6_generate_footer(self):
+        payment_file = File('itau', company)
+        payment_file.header.set_company_data(company)
+        payment_file.payments = []
+
+        paymentA = Payment(type='ted', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, your_number='5511972063805440', pay_date='10052018', ispb_code='90400888', payment_amount=2400.00, favored_document_number='11111111111111')
+
+        paymentJ = Payment(type='other_bank_slip', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, pay_date='10052018', ispb_code='90400888', currency_type=9, dv='4', due_rule='7524', amount=10067.60, free_field='9485239700000007661190101', due_date='14052018', title_amount=10067.60, payment_amount=10067.60, your_number='5506715023835136')
+
+        paymentANF = Payment(type='nf', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, pay_date='10052018', ispb_code='90400888', payment_amount=10067.60, dv='4', due_rule='7524', amount=10067.60, free_field='9485239700000007661190101', due_date='14052018', title_amount=10067.60, your_number='5511972063805440', nf_document='5646510065784320', favored_document_number='11111111111111')
+
+        # add payment
+        payment_file.add_payment(paymentA)
+        payment_file.add_payment(paymentJ)
+        payment_file.add_payment(paymentANF)
+
+        # generate
+        payment_file.generate()
+
+        footer_line = payment_file.footer.to_line()
+        # print(footer_line)
+        assert '34199999         000003000011                                                                                                                                                                                                                   ' in footer_line
 
 
 if __name__ == '__main__':
