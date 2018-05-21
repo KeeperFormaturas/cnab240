@@ -67,3 +67,5 @@ class Attribute:
                 self.value = self.value.rjust(self.length, self.pad_content)
             else:
                 self.value = self.value.ljust(self.length, self.pad_content)
+        elif len(self.value) > self.length:
+            self.value = self.value[:self.length]
