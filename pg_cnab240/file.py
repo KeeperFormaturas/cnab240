@@ -100,10 +100,14 @@ class File:
             content += line + "\n"
         return content
     
-    def next_line(self):
+    def next_line(self, append_line_break=False):
         if self.line_cursor > (len(self.lines) - 1):
             return None
+        
         line = self.lines[self.line_cursor]
+        if append_line_break:
+            line += "\n"
+        
         self.line_cursor += 1
         return line
     
