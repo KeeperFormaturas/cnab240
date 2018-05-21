@@ -10,6 +10,8 @@ class File:
         self.footer = self.import_footer()
         self.body = []
         self.lots_quantity = 1
+        self.lines = []
+        self.line_cursor = 0
     
     def import_bank(self, bank):
         bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
@@ -64,11 +66,17 @@ class File:
             # increment lots_quantity
             self.lots_quantity += 1
 
-    def generate(self):
+    def generate(self, file_path=None):
         self.verify()
+
+        # add header line
+        self.lines.append(self.header.to_line())
 
         # process payments
         self.process_payments()
+
+        for line in self.body:
+            self.lines.append(line)
 
         # populate footer
         self.footer.set_data(dict(
@@ -76,7 +84,28 @@ class File:
             registers_quantity = ((self.lots_quantity - 1) * 3) + 2,
         ))
 
+        # add footer line
+        self.lines.append(self.footer.to_line())
+
+        if file_path:
+            # generate file
+            #TODO:
+            pass
+
         pass
+    
+    def get_content(self):
+        content = ""
+        for line in self.lines:
+            content += line + "\n"
+        return content
+    
+    def next_line(self):
+        if self.line_cursor > (len(self.lines) - 1):
+            return None
+        line = self.lines[self.line_cursor]
+        self.line_cursor += 1
+        return line
     
     def read(self, file_content):
         self.verify()
