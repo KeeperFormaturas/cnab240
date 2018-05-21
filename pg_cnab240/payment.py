@@ -19,7 +19,7 @@ class Payment:
             doc_goal = None,
             ted_goal = None,
             nf_document = None,
-            identify_type = None,
+            identify_type = 2,
             barcode = None,
             dv = None,
             due_rule = None,
