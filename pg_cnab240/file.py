@@ -9,7 +9,7 @@ class File:
         self.header = self.import_header()
         self.footer = self.import_footer()
         self.body = []
-        self.count_lots = 1
+        self.lots_quantity = 1
     
     def import_bank(self, bank):
         bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
@@ -47,7 +47,7 @@ class File:
             segment_data['payment_way'] = payment_segment['payment_types'][payment.get_attribute('type')]
             
             # set custom segment attributes
-            segment_data['lot_code'] = self.count_lots
+            segment_data['lot_code'] = self.lots_quantity
             segment_data['register_number'] = register_number
             segment.set_data(segment_data)
 
@@ -61,8 +61,8 @@ class File:
             if hasattr(segment, 'get_footer_line'):
                 self.body.append(segment.get_footer_line())
 
-            # increment count_lots
-            self.count_lots += 1
+            # increment lots_quantity
+            self.lots_quantity += 1
 
     def generate(self):
         self.verify()
@@ -71,7 +71,10 @@ class File:
         self.process_payments()
 
         # populate footer
-        # TODO:
+        self.footer.set_data(dict(
+            lots_quantity = self.lots_quantity - 1,
+            registers_quantity = ((self.lots_quantity - 1) * 3) + 2,
+        ))
 
         pass
     
