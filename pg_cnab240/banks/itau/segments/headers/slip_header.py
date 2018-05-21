@@ -63,7 +63,7 @@ class SlipHeader(SegmentSection):
             'payment_way': {
                 'type': 'int',
                 'length': 2,
-                'default': 41,
+                'default': 31,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
