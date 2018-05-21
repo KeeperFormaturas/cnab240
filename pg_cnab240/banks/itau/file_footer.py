@@ -33,7 +33,7 @@ class FileFooter(FileSection):
                 'default': 9,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 7,
                 'end': 8,
                 'value': None,
