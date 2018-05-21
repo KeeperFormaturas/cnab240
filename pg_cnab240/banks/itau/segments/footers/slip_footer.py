@@ -30,7 +30,7 @@ class SlipFooter(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 5,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -72,7 +72,7 @@ class SlipFooter(SegmentSection):
                 'value': None,
             },
             'total_amount_zeros': {
-                'type': 'whites',
+                'type': 'zeros',
                 'length': 18,
                 'default': 0,
                 'pad_content': 0,
