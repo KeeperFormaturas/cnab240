@@ -548,7 +548,7 @@ class SegmentANF(SegmentSection):
                 'end': 177,
                 'value': None,
             },
-            'nf_document': { # CNPJ
+            'nf_document': {
                 'type': 'int',
                 'length': 14,
                 'default': 0,
@@ -595,7 +595,7 @@ class SegmentANF(SegmentSection):
             'identify_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 0,
+                'default': 2,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
