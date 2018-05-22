@@ -1,6 +1,8 @@
 from pydoc import locate
 from datetime import datetime
 import os
+import random
+
 
 class File:
     def __init__(self, bank, company=None, payments=[]):
@@ -90,20 +92,22 @@ class File:
         self.lines.append(self.footer.to_line())
 
         if file_path:
-            self.save_file(file_path, file_name)
+            return self.save_file(file_path, file_name)
 
         return True
     
     def get_content(self):
         content = ""
         for line in self.lines:
-            content += line + "\n"
+            if content:
+                content += "\n"
+            content += line
         return content
     
     def save_file(self, file_path, file_name):
         # check file name
         if not file_name:
-            file_name = datetime.utcnow().isoformat() + '.rem'
+            file_name = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S_") + str(random.randint(0, 10000) * 5) + '.rem'
         
         file_full_path = os.path.join(file_path, file_name)
         f = open(file_full_path, 'w')
@@ -116,9 +120,12 @@ class File:
         if self.line_cursor > (len(self.lines) - 1):
             return None
         
-        line = self.lines[self.line_cursor]
-        if append_line_break:
+        line = ""
+
+        if append_line_break and self.line_cursor > 0:
             line += "\n"
+        
+        line += self.lines[self.line_cursor]
         
         self.line_cursor += 1
         return line

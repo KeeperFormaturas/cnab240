@@ -77,3 +77,6 @@ Vagrantfile
 .editorconfig
 
 env/
+
+tests/*.rem
+tests/*.ret

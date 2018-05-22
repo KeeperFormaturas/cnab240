@@ -148,6 +148,30 @@ class ItauFileTestCase(unittest.TestCase):
         footer_line = payment_file.footer.to_line()
         # print(footer_line)
         assert '34199999         000003000011                                                                                                                                                                                                                   ' in footer_line
+    
+    def test_7_save_file(self):
+        payment_file = File('itau', company)
+        payment_file.header.set_company_data(company)
+        payment_file.payments = []
+
+        paymentA = Payment(type='ted', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, your_number='5511972063805440', pay_date='10052018', ispb_code='90400888', payment_amount=2400.00, favored_document_number='11111111111111')
+
+        paymentJ = Payment(type='other_bank_slip', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, pay_date='10052018', ispb_code='90400888', currency_type=9, dv='4', due_rule='7524', amount=10067.60, free_field='9485239700000007661190101', due_date='14052018', title_amount=10067.60, payment_amount=10067.60, your_number='5506715023835136')
+
+        paymentANF = Payment(type='nf', favored_name='Cliente Teste', favored_bank='033', agency='01111', account='000011111111', account_digit=0, pay_date='10052018', ispb_code='90400888', payment_amount=10067.60, dv='4', due_rule='7524', amount=10067.60, free_field='9485239700000007661190101', due_date='14052018', title_amount=10067.60, your_number='5511972063805440', nf_document='5646510065784320', favored_document_number='11111111111111')
+
+        # add payments
+        payment_file.add_payment(paymentA)
+        payment_file.add_payment(paymentJ)
+        payment_file.add_payment(paymentANF)
+
+        # generate
+        file_full_path = payment_file.generate(os.path.dirname(os.path.abspath(__file__)))
+
+        f = open(file_full_path, 'r')
+        file_content = f.read()
+
+        assert file_content in file_content
 
 
 if __name__ == '__main__':
