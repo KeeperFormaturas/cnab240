@@ -1,4 +1,6 @@
 from pydoc import locate
+from datetime import datetime
+import os
 
 class File:
     def __init__(self, bank, company=None, payments=[]):
@@ -66,7 +68,7 @@ class File:
             # increment lots_quantity
             self.lots_quantity += 1
 
-    def generate(self, file_path=None):
+    def generate(self, file_path=None, file_name=None):
         self.verify()
 
         # add header line
@@ -88,17 +90,27 @@ class File:
         self.lines.append(self.footer.to_line())
 
         if file_path:
-            # generate file
-            #TODO:
-            pass
+            self.save_file(file_path, file_name)
 
-        pass
+        return True
     
     def get_content(self):
         content = ""
         for line in self.lines:
             content += line + "\n"
         return content
+    
+    def save_file(self, file_path, file_name):
+        # check file name
+        if not file_name:
+            file_name = datetime.utcnow().isoformat() + '.rem'
+        
+        file_full_path = os.path.join(file_path, file_name)
+        f = open(file_full_path, 'w')
+        f.write(self.get_content())
+        f.close()
+
+        return file_full_path
     
     def next_line(self, append_line_break=False):
         if self.line_cursor > (len(self.lines) - 1):
