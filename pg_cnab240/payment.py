@@ -1,3 +1,6 @@
+import json
+
+
 class Payment:
     def __init__(self, **kwargs):
         self.attributes = dict(
@@ -48,3 +51,12 @@ class Payment:
     
     def set_attribute(self, attr_name, attr_value):
         self.attributes[attr_name] = attr_value
+    
+    def get_attributes(self):
+        return self.attributes
+    
+    def get_dict(self):
+        return self.get_attributes()
+    
+    def get_json(self):
+        return json.dumps(self.get_attributes())
