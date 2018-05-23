@@ -58,5 +58,5 @@ class Bank:
                 for type_name, type_value in segment_data['payment_types'].items():
                     if type_value is None:
                         return segment_data
-                    elif type_value == segment_header[self.segment_header_identifier_name]:
+                    elif type_value == segment_header.attributes[self.segment_header_identifier_name].value:
                         return segment_data
