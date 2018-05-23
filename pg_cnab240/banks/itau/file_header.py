@@ -1,5 +1,6 @@
 from datetime import datetime
 from pg_cnab240.file_section import FileSection
+from pg_cnab240.company import Company
 
 
 class FileHeader(FileSection):
@@ -261,3 +262,9 @@ class FileHeader(FileSection):
             dac = company.bank_account.digit,
             company_name = company.name,
         ))
+    
+    def extract_company(self):
+        company = Company(self.attributes['company_name'].value, self.attributes['company_document_number'].value)
+        company.set_bank_acccount(self.attributes['bank_code'].value, self.attributes['agency'].value, self.attributes['account'].value, self.attributes['dac'].value)
+
+        return company

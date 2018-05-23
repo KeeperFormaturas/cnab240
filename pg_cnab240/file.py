@@ -110,6 +110,8 @@ class File:
             if line_index == 0:
                 # header
                 self.header.set_attributes_from_line(line)
+                if hasattr(self.header, 'extract_company'):
+                    self.company = self.header.extract_company()
             elif line_index == (len(self.lines) - 1):
                 # footer
                 self.footer.set_attributes_from_line(line)

@@ -183,6 +183,9 @@ class ItauFileTestCase(unittest.TestCase):
         f.close()
 
         payment_file.read_file_content(file_content)
+
+        print(payment_file.company)
+        print(payment_file.payments)
         
         assert file_content in file_content
 
