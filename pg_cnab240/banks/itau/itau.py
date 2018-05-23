@@ -7,7 +7,7 @@ from pg_cnab240.banks.itau.segments.J import SegmentJ
 
 class itau(Bank):
     def __init__(self):
-        super().__init__('Itaú', 'itau', 341, 13, 1, 'payment_way', 11, 2)
+        super().__init__('Itaú', 'itau', 341, 13, 1, 'payment_way')
         super().set_segment('J', SegmentJ, {
             'slip': '30',
             'other_bank_slip': '31',
