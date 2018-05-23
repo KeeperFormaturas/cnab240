@@ -128,7 +128,12 @@ class File:
                     segment_class = payment_segment_data['segment_class']
                     payment_segment = segment_class()
                     payment_segment.set_attributes_from_line(line)
-                    #TODO:
+                    
+                    payment = Payment()
+                    for attr_name, attr_value in payment_segment.get_dict().items():
+                        payment.set_attribute(attr_name, attr_value)
+                    
+                    self.payments.append(payment)
             
             line_index += 1
     
