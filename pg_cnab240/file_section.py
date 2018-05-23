@@ -64,3 +64,8 @@ class FileSection:
         for attribute, value in data.items():
             self.data[attribute] = value
         self.associate_data()
+    
+    def set_attributes_from_line(self, line=""):
+        for attr_name, attr in self.attributes.items():
+            self.attributes[attr_name].set_value(line[attr.start:attr.end])
+            self.attributes[attr_name].value = self.attributes[attr_name].value.strip()

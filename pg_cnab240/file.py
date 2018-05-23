@@ -1,5 +1,6 @@
 from pydoc import locate
 from datetime import datetime
+from pg_cnab240.payment import Payment
 import os
 import random
 
@@ -95,6 +96,41 @@ class File:
             return self.save_file(file_path, file_name)
 
         return True
+    
+    def read_file_content(self, file_content=""):
+        if not file_content:
+            raise Exception('File content cannot be empty.')
+        
+        # split file in lines
+        self.lines = file_content.splitlines()
+
+        line_index = 0
+        payment_header_line = None
+        for line in self.lines:
+            if line_index == 0:
+                # header
+                self.header.set_attributes_from_line(line)
+            elif line_index == (len(self.lines) - 1):
+                # footer
+                self.footer.set_attributes_from_line(line)
+                pass
+            else:
+                # payments
+                if line[8] == 'C':
+                    payment_header_line = line
+                if line[8] != 'C' and line[8] != ' ':
+                    # get payment segment data
+                    payment_segment_data = self.bank.identify_payment_segment(line, payment_header_line)
+                    if not payment_segment_data:
+                        raise Exception('Cannot identify payment segment: ' + payment_header_line + ', ' + line)
+                    
+                    # get segment class
+                    segment_class = payment_segment_data['segment_class']
+                    payment_segment = segment_class()
+                    payment_segment.set_attributes_from_line(line)
+                    #TODO:
+            
+            line_index += 1
     
     def get_content(self):
         content = ""

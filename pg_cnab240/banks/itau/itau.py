@@ -7,13 +7,10 @@ from pg_cnab240.banks.itau.segments.J import SegmentJ
 
 class itau(Bank):
     def __init__(self):
-        super().__init__('Itaú', 'itau', 341)
+        super().__init__('Itaú', 'itau', 341, 13, 1, 'payment_way', 11, 2)
         super().set_segment('J', SegmentJ, {
             'slip': '30',
             'other_bank_slip': '31',
-        })
-        super().set_segment('ANF', SegmentANF, {
-            'nf': None,
         })
         super().set_segment('A', SegmentA, {
             'cc': '01',
@@ -38,6 +35,9 @@ class itau(Bank):
             'tedd': '43',
             'gnre': '91',
         })
+        super().set_segment('ANF', SegmentANF, {
+            'nf': None,
+        }, 'A')
     
     def get_file_header(self):
         file_header = FileHeader()

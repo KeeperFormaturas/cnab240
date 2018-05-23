@@ -45,3 +45,6 @@ class Payment:
         if attr_name in self.attributes.keys():
             return self.attributes[attr_name]
         raise Exception('Payment does not have attribute called "' + attr_name + '"')
+    
+    def set_attribute(self, attr_name, attr_value):
+        self.attributes[attr_name] = attr_value
