@@ -1,10 +1,10 @@
-# python-pg-cnab240
+# pg-cnab240
 
 A CNAB 240 Package to proccess Bank payment shipping files and return files.
 
 ### Installation
 
-    pip install pg_cnab240
+    pip install pg-cnab240
 
 ### Implemented Banks
 
