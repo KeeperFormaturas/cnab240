@@ -10,6 +10,10 @@ class File:
         self.company = company
         self.payments = payments
 
+        self.banks_codes = {
+            '341': 'itau',
+        }
+
         self.bank = self.import_bank(bank)
         self.header = self.import_header()
         self.footer = self.import_footer()
@@ -22,6 +26,9 @@ class File:
         bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
         bankClass = getattr(bankClassFile, bank)
         return bankClass()
+        
+    def get_bank_name_by_code(self, bank_code):
+        return self.banks_codes[str(bank_code)]
 
     def import_header(self):
         return self.bank.get_file_header()
