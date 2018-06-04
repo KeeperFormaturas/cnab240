@@ -33,6 +33,7 @@ class Payment:
             discounts = None,
             additions = None,
             payment_amount = None,
+            effective_paid_amount = None,
             favored_message = None,
             occurrences = None,
             move_type = None,
