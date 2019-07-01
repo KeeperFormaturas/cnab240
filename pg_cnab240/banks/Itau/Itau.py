@@ -5,21 +5,22 @@ from pg_cnab240.banks.Itau.segments.A import SegmentA
 from pg_cnab240.banks.Itau.segments.ANF import SegmentANF
 from pg_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
 from pg_cnab240.banks.Itau.segments.J52 import SegmentJ52
+from pg_cnab240.banks.Itau.payment_status import PaymentStatus
 
 
 class Itau(Bank):
     def __init__(self):
-        super().__init__('Itaú', 'Itau', 341, 13, 1, 'payment_way')
+        super().__init__('Itaú', 'Itau', 341, 13, 1, 'payment_way', payments_status=PaymentStatus)
 
         # Segment J
         segment_j_types = {
             'slip': '30',
             'other_bank_slip': '31',
         }
-        super().set_segment('JHeader', SegmentJHeader, segment_j_types)
+        super().set_segment('JHeader', SegmentJHeader, segment_j_types, shipping_only=True)
         super().set_segment('J', SegmentJ, segment_j_types)
-        super().set_segment('J52', SegmentJ52, segment_j_types)
-        super().set_segment('JFooter', SegmentJFooter, segment_j_types)
+        super().set_segment('J52', SegmentJ52, segment_j_types, shipping_only=True)
+        super().set_segment('JFooter', SegmentJFooter, segment_j_types, shipping_only=True)
 
         # Segment A
         super().set_segment('A', SegmentA, {

@@ -97,40 +97,34 @@ class File:
         return True
     
     def read_file_content(self, file_content=""):
+        self.payments = []
         if not file_content:
             raise Exception('File content cannot be empty.')
-        
-        # split file in lines
+
         self.lines = file_content.splitlines()
 
         line_index = 0
         payment_header_line = None
         for line in self.lines:
             if line_index == 0:
-                # header
                 self.header.set_attributes_from_line(line)
                 if hasattr(self.header, 'extract_company'):
                     self.company = self.header.extract_company()
             elif line_index == (len(self.lines) - 1):
-                # footer
                 self.footer.set_attributes_from_line(line)
-                pass
             else:
-                # payments
                 if line[8] == 'C':
                     payment_header_line = line
-                if line[8] != 'C' and line[8] != ' ':
-                    # get payment segment data
+                elif line[8] != 'C' and line[8] != ' ':
                     payment_segment_data = self.bank.identify_payment_segment(line, payment_header_line)
                     if not payment_segment_data:
                         raise Exception('Cannot identify payment segment: ' + payment_header_line + ', ' + line)
-                    
-                    # get segment class
+
                     segment_class = payment_segment_data['segment_class']
                     payment_segment = segment_class()
                     payment_segment.set_attributes_from_line(line)
                     
-                    payment = Payment()
+                    payment = Payment(payments_status=self.bank.get_payments_status())
                     for attr_name, attr_value in payment_segment.get_dict().items():
                         payment.set_attribute(attr_name, attr_value)
                     

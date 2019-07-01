@@ -2,7 +2,9 @@ import json
 
 
 class Payment:
-    def __init__(self, **kwargs):
+    PaymentsStatus = None
+
+    def __init__(self, payments_status=None, **kwargs):
         self.attributes = dict(
             type=None,
             pay_date=None,
@@ -54,6 +56,8 @@ class Payment:
             if attr_name in kwargs_keys:
                 self.attributes[attr_name] = kwargs[attr_name]
 
+        self.PaymentsStatus = payments_status
+
     def get_attribute(self, attr_name):
         if attr_name in self.attributes.keys():
             return self.attributes[attr_name]
@@ -70,3 +74,41 @@ class Payment:
 
     def get_json(self):
         return json.dumps(self.get_attributes())
+
+    def status(self):
+        occurrences = self.get_attribute('occurrences') if self.get_attribute('occurrences') not in (0, 00, '00')\
+            else 'ZEROS'
+
+        return occurrences if self.PaymentsStatus is None or not hasattr(self.PaymentsStatus, occurrences)\
+            else self.PaymentsStatus(occurrences).get()
+
+
+class StatusModel:
+    is_error = None
+    is_processed = None
+    is_income = None
+    is_info = None
+    is_outcome = None
+    is_reverted = None
+    message = None
+
+    def __init__(self, processed: bool, move: str, message: str = None):
+        self.is_error = not processed
+        self.is_processed = processed
+        self.is_income = move == 'in' or move == 'revert'
+        self.is_info = move == 'info'
+        self.is_outcome = move == 'out'
+        self.is_reverted = move == 'revert'
+        self.error_type = message if self.is_error else None
+        self.message = message
+
+    def __str__(self):
+        return '<StatusModel is_error={} is_processed={} is_income={} is_info={} is_outcome={} ' \
+               'is_reverted={} error_type={} message={}>'.format(self.is_error,
+                                                                 self.is_processed,
+                                                                 self.is_income,
+                                                                 self.is_info,
+                                                                 self.is_outcome,
+                                                                 self.is_reverted,
+                                                                 self.error_type,
+                                                                 self.message)
