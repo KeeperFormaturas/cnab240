@@ -1,6 +1,7 @@
 from datetime import datetime
 from pg_cnab240.file_section import FileSection
 from pg_cnab240.company import Company
+import os
 
 
 class FileHeader(FileSection):
@@ -196,7 +197,7 @@ class FileHeader(FileSection):
             'generation_date': {
                 'type': 'date',
                 'length': 8,
-                'default': datetime.utcnow().strftime(self.default_date_format),
+                'default': datetime.utcnow().strftime(self.default_date_format) if os.getenv('UNITTESTING') != '1' else '01012019',
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
@@ -207,7 +208,7 @@ class FileHeader(FileSection):
             'generation_hour': {
                 'type': 'date',
                 'length': 6,
-                'default': datetime.utcnow().strftime(self.default_time_format),
+                'default': datetime.utcnow().strftime(self.default_time_format) if os.getenv('UNITTESTING') != '1' else '000000',
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
