@@ -1,14 +1,27 @@
 # pg-cnab240
 
-A CNAB 240 Package to proccess Bank payment shipping files and return files.
-
-### Installation
+Pacote para processamento de arquivos bancários CNAB 240.
 
     pip install pg-cnab240
+    
+#### Bancos Implementados
+| Banco | Remessa | Retorno |
+| ----- | ------- | ------- |
+| Itau / Sispag | Beta | Beta |
 
-### Implemented Banks
+### REQUISITOS
+- Python 3.6+
 
- - [X] Itau Unibanco
- - [ ] Banco de Brasil
- - [ ] Bradesco
- - [ ] Santander
+### Como configurar o VirtualEnv
+1. ```$ pip install --upgrade virtualenv```
+2. ```$ python -m virtualenv <path_to_env_folder>```
+3. Para ativar o virtualenv:
+```bash
+> *Linux*: $ source <path_to_env_folder>/bin/activate
+> *Windows*: $ source <path_to_env_folder>/Scripts/activate
+```
+
+### Instalar dependências
+```bash
+$ pip install -r requirements.txt
+```

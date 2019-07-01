@@ -30,11 +30,6 @@ class SegmentSection(FileSection):
         self.header.set_bank(self.bank)
         self.header.set_company(self.company)
         self.header.set_data(self.data)
-        
-    def set_header_data(self, header_data=dict()):
-        if not self.header:
-            raise Exception('Header is invalid')
-        self.header.set_data(header_data)
     
     def get_header_line(self):
         if not self.header.data:
@@ -46,11 +41,6 @@ class SegmentSection(FileSection):
         self.footer.set_bank(self.bank)
         self.footer.set_company(self.company)
         self.footer.set_data(self.data)
-    
-    def set_footer_data(self, footer_data=dict()):
-        if not self.footer:
-            raise Exception('Footer is invalid')
-        self.footer.associate_data(footer_data)
     
     def get_footer_line(self):
         if not self.footer.data:

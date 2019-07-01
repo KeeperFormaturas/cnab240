@@ -2,9 +2,10 @@ from unicodedata import normalize
 
 
 class Attribute:
-    def __init__(self, name, type, length, start, end, default_value='', pad_content=0, pad_direction='left', required=False, datetime_format='', date_format='', time_format=''):
+    def __init__(self, name, attr_type, length, start, end, default_value='', pad_content=0, pad_direction='left',
+                 required=False):
         self.name = name
-        self.type = type
+        self.type = attr_type
         self.length = length
         self.start = start
         self.end = end
@@ -45,20 +46,16 @@ class Attribute:
             self.value = str(new_value)
         
         self.value = str(self.value)
-
         self.clean_value()
-        
         self.pad_value()
+        self.value = self.value.upper()
 
-        self.value = self.value.upper() # transform to upper case
-    
     def clean_value(self):
-        # remove special chars
-        special_chars = [',', '.', '-', '_', '*', '&', '´', '`', "'", '"', '!', '?', '/', ':', ';', '>', '<', '^', '~', ']', '}', '{', '[', 'ª', 'º', '#', '%', '¨', '(', ')', '+', '=', '§', '¬', '£', '¹', '²', '³', '°']
+        special_chars = [',', '.', '-', '_', '*', '&', '´', '`', "'", '"', '!', '?', '/', ':', ';', '>', '<',
+                         '^', '~', ']', '}', '{', '[', 'ª', 'º', '#', '%', '¨', '(', ')', '+', '=', '§', '¬',
+                         '£', '¹', '²', '³', '°']
         for char in special_chars:
             self.value = self.value.replace(char, '')
-        
-        # remove accents
         self.value = normalize('NFKD', self.value).encode('ASCII', 'ignore').decode('ASCII')
     
     def pad_value(self):

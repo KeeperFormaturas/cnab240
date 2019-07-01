@@ -21,30 +21,39 @@ class FileSection:
             self.associate_data()
     
     def transform_attributes(self):
-        for attr, data in self.attributes.items():
-            self.attributes[attr] = Attribute(attr, data['type'], data['length'], data['start'], data['end'], data['default'], data['pad_content'], data['pad_direction'], data['required'], self.default_datetime_format, self.default_date_format, self.default_time_format)
+        if self.attributes is not None:
+            for attr, data in self.attributes.items():
+                self.attributes[attr] = Attribute(attr, data['type'], data['length'], data['start'], data['end'],
+                                                  data['default'], data['pad_content'], data['pad_direction'],
+                                                  data['required'])
     
     def associate_data(self):
         if self.data:
             if self.bank:
                 self.data['bank_code'] = self.bank.code
-             
-            for name, attr in self.attributes.items():
-                if name in self.data:
-                    self.attributes[name].set_value(self.data[name])
-                elif attr.is_required():
-                    raise Exception('The ' + self.section_name + ' Attribute "' + name + '" is required')
+
+            if self.attributes is not None:
+                for name, attr in self.attributes.items():
+                    if name in self.data:
+                        self.attributes[name].set_value(self.data[name])
+                    elif attr.is_required():
+                        raise Exception('The ' + self.section_name + ' Attribute "' + name + '" is required')
     
     def get_dict(self):
         response = dict()
-        for attr_name, attr in self.attributes.items():
-            response[attr_name] = attr.get_value()
+        if self.attributes is not None:
+            response = {}
+            for attr_name, attr in self.attributes.items():
+                response[attr_name] = attr.get_value()
         return response
     
     def get_json(self):
         return json.dumps(self.get_dict())
     
     def to_line(self):
+        if self.attributes is None:
+            return None
+
         line = ''
         for attr_name, attr in self.attributes.items():
             line += attr.get_value()
@@ -52,6 +61,9 @@ class FileSection:
     
     def get_required_attributes(self):
         required_attributes = []
+        if self.attributes is None:
+            return required_attributes
+
         for attr_name, attr in self.attributes.items():
             if attr.is_required():
                 required_attributes.append(attr)
@@ -60,12 +72,15 @@ class FileSection:
     def set_bank(self, bank):
         self.bank = bank
     
-    def set_data(self, data=dict()):
+    def set_data(self, data=None):
+        if data is None:
+            data = dict()
         for attribute, value in data.items():
             self.data[attribute] = value
         self.associate_data()
     
     def set_attributes_from_line(self, line=""):
-        for attr_name, attr in self.attributes.items():
-            self.attributes[attr_name].set_value(line[attr.start:attr.end])
-            self.attributes[attr_name].value = self.attributes[attr_name].value.strip()
+        if self.attributes is not None:
+            for attr_name, attr in self.attributes.items():
+                self.attributes[attr_name].set_value(line[attr.start:attr.end])
+                self.attributes[attr_name].value = self.attributes[attr_name].value.strip()

@@ -1,10 +1,9 @@
-from datetime import datetime
-from pg_cnab240.segment_section import SegmentSection
+from pg_cnab240.file_section import FileSection
 
 
-class SlipFooter(SegmentSection):
+class FileFooter(FileSection):
     def __init__(self, data=None):
-        super().__init__('SlipFooter', data, {
+        super().__init__('FileFooter', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -19,7 +18,7 @@ class SlipFooter(SegmentSection):
             'lot_code': {
                 'type': 'int',
                 'length': 4,
-                'default': 0000,
+                'default': 9999,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -30,7 +29,7 @@ class SlipFooter(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 5,
+                'default': 9,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -38,15 +37,26 @@ class SlipFooter(SegmentSection):
                 'end': 8,
                 'value': None,
             },
-            'register_whites': {
+            'register_type_whites': {
                 'type': 'whites',
                 'length': 9,
-                'default': ' ',
+                'default': '',
                 'pad_content': ' ',
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
                 'start': 8,
                 'end': 17,
+                'value': None,
+            },
+            'lots_quantity': {
+                'type': 'int',
+                'length': 6,
+                'default': 1,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+                'start': 17,
+                'end': 23,
                 'value': None,
             },
             'registers_quantity': {
@@ -56,61 +66,19 @@ class SlipFooter(SegmentSection):
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
-                'start': 17,
-                'end': 23,
-                'value': None,
-            },
-            'total_amount': {
-                'type': 'float',
-                'length': 18,
-                'default': 0,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': True,
                 'start': 23,
-                'end': 41,
+                'end': 29,
                 'value': None,
             },
-            'total_amount_zeros': {
-                'type': 'zeros',
-                'length': 18,
-                'default': 0,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': False,
-                'start': 41,
-                'end': 59,
-                'value': None,
-            },
-            'total_amount_whites': {
+            'registers_quantity_whites': {
                 'type': 'whites',
-                'length': 171,
-                'default': ' ',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': False,
-                'start': 59,
-                'end': 230,
-                'value': None,
-            },
-            'occurrences': {
-                'type': 'string',
-                'length': 10,
+                'length': 211,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
-                'start': 230,
+                'start': 29,
                 'end': 240,
                 'value': None,
             },
         })
-    
-    def set_data(self, data=dict()):
-        if data is None:
-            data = dict()
-
-        # set total_amount
-        data['total_amount'] = data['payment_amount']
-
-        super().set_data(data)

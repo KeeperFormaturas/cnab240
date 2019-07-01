@@ -1,10 +1,9 @@
-from datetime import datetime
 from pg_cnab240.segment_section import SegmentSection
 
 
-class SlipHeader(SegmentSection):
+class TransferHeader(SegmentSection):
     def __init__(self, data=None):
-        super().__init__('SlipHeader', data, {
+        super().__init__('TransferHeader', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -22,7 +21,7 @@ class SlipHeader(SegmentSection):
                 'default': 0000,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': False,
+                'required': True,
                 'start': 3,
                 'end': 7,
                 'value': None,
@@ -63,7 +62,7 @@ class SlipHeader(SegmentSection):
             'payment_way': {
                 'type': 'int',
                 'length': 2,
-                'default': 31,
+                'default': 41,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -74,7 +73,7 @@ class SlipHeader(SegmentSection):
             'lot_layout': {
                 'type': 'int',
                 'length': 3,
-                'default': '030',
+                'default': '040',
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -96,7 +95,7 @@ class SlipHeader(SegmentSection):
             'company_document_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 2, # 1 = CPF / 2 = CNPJ
+                'default': 2,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
@@ -115,14 +114,25 @@ class SlipHeader(SegmentSection):
                 'end': 32,
                 'value': None,
             },
-            'company_document_whites': {
+            'entry_identification': {
+                'type': 'string',
+                'length': 4,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+                'start': 32,
+                'end': 36,
+                'value': None,
+            },
+            'entry_identification_whites': {
                 'type': 'whites',
-                'length': 20,
+                'length': 16,
                 'default': ' ',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
-                'start': 32,
+                'start': 36,
                 'end': 52,
                 'value': None,
             },

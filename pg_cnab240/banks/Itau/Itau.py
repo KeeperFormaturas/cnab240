@@ -1,17 +1,27 @@
 from pg_cnab240.banks.bank import Bank
-from pg_cnab240.banks.itau.file_header import FileHeader
-from pg_cnab240.banks.itau.file_footer import FileFooter
-from pg_cnab240.banks.itau.segments.A import SegmentA, SegmentANF
-from pg_cnab240.banks.itau.segments.J import SegmentJ
+from pg_cnab240.banks.Itau.file_header import FileHeader
+from pg_cnab240.banks.Itau.file_footer import FileFooter
+from pg_cnab240.banks.Itau.segments.A import SegmentA
+from pg_cnab240.banks.Itau.segments.ANF import SegmentANF
+from pg_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
+from pg_cnab240.banks.Itau.segments.J52 import SegmentJ52
 
 
-class itau(Bank):
+class Itau(Bank):
     def __init__(self):
-        super().__init__('Itaú', 'itau', 341, 13, 1, 'payment_way')
-        super().set_segment('J', SegmentJ, {
+        super().__init__('Itaú', 'Itau', 341, 13, 1, 'payment_way')
+
+        # Segment J
+        segment_j_types = {
             'slip': '30',
             'other_bank_slip': '31',
-        })
+        }
+        super().set_segment('JHeader', SegmentJHeader, segment_j_types)
+        super().set_segment('J', SegmentJ, segment_j_types)
+        super().set_segment('J52', SegmentJ52, segment_j_types)
+        super().set_segment('JFooter', SegmentJFooter, segment_j_types)
+
+        # Segment A
         super().set_segment('A', SegmentA, {
             'cc': '01',
             'admin_check': '02',
@@ -49,7 +59,6 @@ class itau(Bank):
         file_footer.set_bank(self)
         return file_footer
     
-    def get_company_document_id(self, document_type):
-        if document_type == 'cnpj':
-            return 2
-        return 1 # cpf
+    @staticmethod
+    def get_company_document_id(document_type):
+        return 2 if document_type == 'cnpj' else 1

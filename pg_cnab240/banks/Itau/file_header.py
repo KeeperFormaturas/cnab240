@@ -64,7 +64,7 @@ class FileHeader(FileSection):
             'company_document_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 2, # 1 = CPF / 2 = CNPJ
+                'default': 2,  # 1 = CPF / 2 = CNPJ
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -138,7 +138,7 @@ class FileHeader(FileSection):
                 'end': 71,
                 'value': None,
             },
-            'dac': { # bank account digit
+            'dac': {  # bank account digit
                 'type': 'int',
                 'length': 1,
                 'default': 0,
@@ -185,7 +185,7 @@ class FileHeader(FileSection):
             'file_code': {
                 'type': 'int',
                 'length': 1,
-                'default': 1, # 1 - Shipping / 2 - Return
+                'default': 1,  # 1 - Shipping / 2 - Return
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -255,16 +255,17 @@ class FileHeader(FileSection):
             raise Exception('Company cannot be None')
         
         super().set_data(dict(
-            company_document_type = self.bank.get_company_document_id(company.document_type),
-            company_document_number = company.document,
-            agency = company.bank_account.agency,
-            account = company.bank_account.account,
-            dac = company.bank_account.digit,
-            company_name = company.name,
+            company_document_type=self.bank.get_company_document_id(company.document_type),
+            company_document_number=company.document,
+            agency=company.bank_account.agency,
+            account=company.bank_account.account,
+            dac=company.bank_account.digit,
+            company_name=company.name,
         ))
     
     def extract_company(self):
         company = Company(self.attributes['company_name'].value, self.attributes['company_document_number'].value)
-        company.set_bank_acccount(self.attributes['bank_code'].value, self.attributes['agency'].value, self.attributes['account'].value, self.attributes['dac'].value)
+        company.set_bank_acccount(self.attributes['bank_code'].value, self.attributes['agency'].value,
+                                  self.attributes['account'].value, self.attributes['dac'].value)
 
         return company

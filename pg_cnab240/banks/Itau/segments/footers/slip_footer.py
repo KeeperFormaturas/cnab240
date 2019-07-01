@@ -1,10 +1,9 @@
-from datetime import datetime
 from pg_cnab240.segment_section import SegmentSection
 
 
-class TransferFooter(SegmentSection):
+class SlipFooter(SegmentSection):
     def __init__(self, data=None):
-        super().__init__('TransferFooter', data, {
+        super().__init__('SlipFooter', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -52,7 +51,7 @@ class TransferFooter(SegmentSection):
             'registers_quantity': {
                 'type': 'int',
                 'length': 6,
-                'default': 3,
+                'default': 4,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -76,7 +75,7 @@ class TransferFooter(SegmentSection):
                 'length': 18,
                 'default': 0,
                 'pad_content': 0,
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
                 'start': 41,
                 'end': 59,
@@ -106,11 +105,9 @@ class TransferFooter(SegmentSection):
             },
         })
     
-    def set_data(self, data=dict()):
+    def set_data(self, data=None):
         if data is None:
             data = dict()
 
-        # set total_amount
         data['total_amount'] = data['payment_amount']
-
         super().set_data(data)

@@ -1,10 +1,9 @@
-from datetime import datetime
-from pg_cnab240.file_section import FileSection
+from pg_cnab240.segment_section import SegmentSection
 
 
-class FileFooter(FileSection):
+class TransferFooter(SegmentSection):
     def __init__(self, data=None):
-        super().__init__('FileFooter', data, {
+        super().__init__('TransferFooter', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -19,7 +18,7 @@ class FileFooter(FileSection):
             'lot_code': {
                 'type': 'int',
                 'length': 4,
-                'default': 9999,
+                'default': 0000,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -30,7 +29,7 @@ class FileFooter(FileSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 9,
+                'default': 5,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -38,26 +37,15 @@ class FileFooter(FileSection):
                 'end': 8,
                 'value': None,
             },
-            'register_type_whites': {
+            'register_whites': {
                 'type': 'whites',
                 'length': 9,
-                'default': '',
+                'default': ' ',
                 'pad_content': ' ',
-                'pad_direction': 'left',
+                'pad_direction': 'right',
                 'required': False,
                 'start': 8,
                 'end': 17,
-                'value': None,
-            },
-            'lots_quantity': {
-                'type': 'int',
-                'length': 6,
-                'default': 1,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': True,
-                'start': 17,
-                'end': 23,
                 'value': None,
             },
             'registers_quantity': {
@@ -67,19 +55,59 @@ class FileFooter(FileSection):
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
-                'start': 23,
-                'end': 29,
+                'start': 17,
+                'end': 23,
                 'value': None,
             },
-            'registers_quantity_whites': {
+            'total_amount': {
+                'type': 'float',
+                'length': 18,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+                'start': 23,
+                'end': 41,
+                'value': None,
+            },
+            'total_amount_zeros': {
+                'type': 'zeros',
+                'length': 18,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'right',
+                'required': False,
+                'start': 41,
+                'end': 59,
+                'value': None,
+            },
+            'total_amount_whites': {
                 'type': 'whites',
-                'length': 211,
+                'length': 171,
+                'default': ' ',
+                'pad_content': ' ',
+                'pad_direction': 'right',
+                'required': False,
+                'start': 59,
+                'end': 230,
+                'value': None,
+            },
+            'occurrences': {
+                'type': 'string',
+                'length': 10,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
-                'start': 29,
+                'start': 230,
                 'end': 240,
                 'value': None,
             },
         })
+    
+    def set_data(self, data=None):
+        if data is None:
+            data = dict()
+
+        data['total_amount'] = data['payment_amount']
+        super().set_data(data)
