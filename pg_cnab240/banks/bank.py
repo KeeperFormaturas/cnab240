@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class Bank:
     def __init__(self, name, slug, code, segment_position_identifier=None, segment_identifier_length=1,
                  segment_header_identifier_name=None, payments_status=None):
@@ -45,6 +48,8 @@ class Bank:
         pass
 
     def get_payment_segment(self, payment_type):
+        payment_type = payment_type if not issubclass(type(payment_type), Enum) else payment_type.name
+        print(payment_type)
         if payment_type in self.available_segments:
             return self.available_segments[payment_type]
         raise Exception('Payment Type not Found')

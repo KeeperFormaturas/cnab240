@@ -1,6 +1,7 @@
-from pydoc import locate
 from datetime import datetime
+from enum import Enum
 from pg_cnab240.payment import Payment
+from pydoc import locate
 import os
 import random
 
@@ -58,7 +59,9 @@ class File:
 
                 # attr payment attributes
                 segment_data = payment.attributes
-                segment_data['payment_way'] = _segment['payment_types'][payment.get_attribute('type')]
+                payment_type = payment.get_attribute('type')
+                payment_type = payment_type if not issubclass(type(payment_type), Enum) else payment_type.name
+                segment_data['payment_way'] = _segment['payment_types'][payment_type]
 
                 # set custom segment attributes
                 segment_data['lot_code'] = self.lots_quantity
