@@ -49,7 +49,6 @@ class Bank:
 
     def get_payment_segment(self, payment_type):
         payment_type = payment_type if not issubclass(type(payment_type), Enum) else payment_type.name
-        print(payment_type)
         if payment_type in self.available_segments:
             return self.available_segments[payment_type]
         raise Exception('Payment Type not Found')
