@@ -12,16 +12,6 @@ class Itau(Bank):
     def __init__(self):
         super().__init__('Itaú', 'Itau', 341, 13, 1, 'payment_way', payments_status=PaymentStatus)
 
-        # Segment J
-        segment_j_types = {
-            'slip': '30',
-            'other_bank_slip': '31',
-        }
-        super().set_segment('JHeader', SegmentJHeader, segment_j_types, shipping_only=True)
-        super().set_segment('J', SegmentJ, segment_j_types)
-        super().set_segment('J52', SegmentJ52, segment_j_types, shipping_only=True)
-        super().set_segment('JFooter', SegmentJFooter, segment_j_types, shipping_only=True)
-
         # Segment A
         super().set_segment('A', SegmentA, {
             'cc': '01',
@@ -49,6 +39,16 @@ class Itau(Bank):
         super().set_segment('ANF', SegmentANF, {
             'nf': None,
         }, 'A')
+
+        # Segment J
+        segment_j_types = {
+            'slip': '30',
+            'other_bank_slip': '31',
+        }
+        super().set_segment('JHeader', SegmentJHeader, segment_j_types, shipping_only=True)
+        super().set_segment('J', SegmentJ, segment_j_types)
+        super().set_segment('J52', SegmentJ52, segment_j_types, shipping_only=True)
+        super().set_segment('JFooter', SegmentJFooter, segment_j_types, shipping_only=True)
     
     def get_file_header(self):
         file_header = FileHeader()

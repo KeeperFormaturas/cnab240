@@ -327,7 +327,9 @@ class SegmentA(SegmentSection):
             },
         }, TransferHeader, TransferFooter)
     
-    def set_data(self, data=dict()):
+    def set_data(self, data=None):
+        if data is None:
+            data = dict()
         if data is not None:
             if 'agency' in data and 'account' in data and 'account_digit' in data:
                 data['agency_account_digit'] = str(data['agency']) + ' ' + str(data['account']) + ' ' + str(data['account_digit'])
