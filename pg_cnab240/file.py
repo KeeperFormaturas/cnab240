@@ -57,13 +57,11 @@ class File:
                 segment.set_bank(self.bank)
                 segment.set_company(self.company)
 
-                # attr payment attributes
                 segment_data = payment.attributes
                 payment_type = payment.get_attribute('type')
                 payment_type = payment_type if not issubclass(type(payment_type), Enum) else payment_type.name
                 segment_data['payment_way'] = _segment['payment_types'][payment_type]
 
-                # set custom segment attributes
                 segment_data['lot_code'] = self.lots_quantity
                 segment_data['register_number'] = register_number
                 segment.set_data(segment_data)
@@ -91,7 +89,7 @@ class File:
 
         self.footer.set_data(dict(
             lots_quantity=self.lots_quantity - 1,
-            registers_quantity=((self.lots_quantity - 1) * 4) + 2,
+            registers_quantity=len(self.lines) + 1,
         ))
         self.lines.append(self.footer.to_line())
         if file_path:
