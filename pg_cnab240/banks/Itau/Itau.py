@@ -3,7 +3,7 @@ from pg_cnab240.banks.Itau.file_header import FileHeader
 from pg_cnab240.banks.Itau.file_footer import FileFooter
 from pg_cnab240.banks.Itau.payment_methods import PaymentMethods
 from pg_cnab240.banks.Itau.payment_status import PaymentStatus
-from pg_cnab240.banks.Itau.segments.A import SegmentA
+from pg_cnab240.banks.Itau.segments.A import SegmentA, SegmentAFooter, SegmentAHeader
 from pg_cnab240.banks.Itau.segments.ANF import SegmentANF
 from pg_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
 from pg_cnab240.banks.Itau.segments.J52 import SegmentJ52
@@ -14,8 +14,10 @@ class Itau(Bank):
         super().__init__('Itaú', 'Itau', 341, 13, 1, 'payment_way', payments_status=PaymentStatus)
 
         # Segment A
+        super().set_segment('AHeader', SegmentAHeader, PaymentMethods.segment_a_anf(), shipping_only=True)
         super().set_segment('A', SegmentA, PaymentMethods.segment_a())
         super().set_segment('ANF', SegmentANF, PaymentMethods.segment_anf(), 'A')
+        super().set_segment('AFooter', SegmentAFooter, PaymentMethods.segment_a_anf(), shipping_only=True)
 
         # Segment J
         super().set_segment('JHeader', SegmentJHeader, PaymentMethods.segment_j(), shipping_only=True)

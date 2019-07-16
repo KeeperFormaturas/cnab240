@@ -52,6 +52,10 @@ class PaymentMethods(Enum):
         }
 
     @staticmethod
+    def segment_a_anf():
+        return {**PaymentMethods.segment_a(), **PaymentMethods.segment_anf()}
+
+    @staticmethod
     def segment_anf():
         return {
             k: v.value

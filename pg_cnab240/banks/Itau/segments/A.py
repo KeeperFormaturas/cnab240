@@ -12,7 +12,7 @@ class SegmentA(SegmentSection):
                 'default': 341,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 0,
                 'end': 3,
                 'value': None,
@@ -94,14 +94,80 @@ class SegmentA(SegmentSection):
                 'end': 23,
                 'value': None,
             },
-            'agency_account_digit': {
-                'type': 'string',
-                'length': 20,
+            'agency_zero': {
+                'type': 'int',
+                'length': 1,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 23,
+                'end': 24,
+                'value': None,
+            },
+            'agency': {
+                'type': 'int',
+                'length': 4,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+                'start': 24,
+                'end': 28,
+                'value': None,
+            },
+            'account_white': {
+                'type': 'whites',
+                'length': 1,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'right',
+                'required': False,
+                'start': 28,
+                'end': 29,
+                'value': None,
+            },
+            'account_zero': {
+                'type': 'int',
+                'length': 6,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 29,
+                'end': 35,
+                'value': None,
+            },
+            'account': {
+                'type': 'int',
+                'length': 6,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
                 'required': True,
-                'start': 23,
+                'start': 35,
+                'end': 41,
+                'value': None,
+            },
+            'account_digit_white': {
+                'type': 'whites',
+                'length': 1,
+                'default': '',
+                'pad_content': ' ',
+                'pad_direction': 'right',
+                'required': False,
+                'start': 41,
+                'end': 42,
+                'value': None,
+            },
+            'account_digit': {
+                'type': 'int',
+                'length': 1,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': True,
+                'start': 42,
                 'end': 43,
                 'value': None,
             },
@@ -155,7 +221,7 @@ class SegmentA(SegmentSection):
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 104,
                 'end': 112,
                 'value': None,
@@ -208,7 +274,7 @@ class SegmentA(SegmentSection):
                 'type': 'date',
                 'length': 8,
                 'default': '',
-                'pad_content': ' ',
+                'pad_content': '0',
                 'pad_direction': 'right',
                 'required': False,
                 'start': 154,
@@ -325,13 +391,17 @@ class SegmentA(SegmentSection):
                 'end': 240,
                 'value': None,
             },
-        }, TransferHeader, TransferFooter)
+        }, None, None)
     
     def set_data(self, data=None):
-        if data is None:
-            data = dict()
-        if data is not None:
-            if 'agency' in data and 'account' in data and 'account_digit' in data:
-                data['agency_account_digit'] = str(data['agency']) + ' ' + str(data['account']) + ' ' + str(data['account_digit'])
-        
-        super().set_data(data)
+        super().set_data(data if data is not None else dict())
+
+
+class SegmentAHeader(SegmentSection):
+    def __init__(self, data=None):
+        super().__init__('SegmentJ', data, None, TransferHeader, None)
+
+
+class SegmentAFooter(SegmentSection):
+    def __init__(self, data=None):
+        super().__init__('SegmentJ', data, None, None, TransferFooter)
