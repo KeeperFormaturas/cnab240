@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pg_cnab240",
-    version="1.0.6",
+    version="v0.0.1-beta",
     author="Keeper Formaturas",
     author_email="ola@keeperformaturas.com.br",
     description="A CNAB 240 Package to process Bank payment shipping files and return files.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/BancoDeFormaturas/python-pg-cnab240",
+    url="https://github.com/KeeperFormaturas/python-pg-cnab240",
     packages=setuptools.find_packages(),
     classifiers=(
         "Programming Language :: Python :: 3",
