@@ -1,10 +1,12 @@
 from datetime import datetime
-from pg_cnab240.segment_section import SegmentSection
+from pg_cnab240.file_section import FileSection
+from pg_cnab240.company import Company
+import os
 
 
-class SlipHeader(SegmentSection):
+class FileHeader(FileSection):
     def __init__(self, data=None):
-        super().__init__('SlipHeader', data, {
+        super().__init__('FileHeader', data, {
             'bank_code': {
                 'type': 'int',
                 'length': 3,
@@ -30,7 +32,7 @@ class SlipHeader(SegmentSection):
             'register_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 1,
+                'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
@@ -38,68 +40,35 @@ class SlipHeader(SegmentSection):
                 'end': 8,
                 'value': None,
             },
-            'operation_type': {
-                'type': 'string',
-                'length': 1,
-                'default': 'C',
-                'pad_content': ' ',
-                'pad_direction': 'left',
-                'required': False,
-                'start': 8,
-                'end': 9,
-                'value': None,
-            },
-            'payment_type': {
-                'type': 'int',
-                'length': 2,
-                'default': 20,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': False,
-                'start': 9,
-                'end': 11,
-                'value': None,
-            },
-            'payment_way': {
-                'type': 'int',
-                'length': 2,
-                'default': 31,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': False,
-                'start': 11,
-                'end': 13,
-                'value': None,
-            },
-            'lot_layout': {
-                'type': 'int',
-                'length': 3,
-                'default': '030',
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': False,
-                'start': 13,
-                'end': 16,
-                'value': None,
-            },
-            'lot_layout_whites': {
+            'register_type_whites': {
                 'type': 'whites',
-                'length': 1,
+                'length': 6,
                 'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
-                'start': 16,
+                'start': 8,
+                'end': 14,
+                'value': None,
+            },
+            'file_layout': {
+                'type': 'int',
+                'length': 3,
+                'default': '081',
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 14,
                 'end': 17,
                 'value': None,
             },
             'company_document_type': {
                 'type': 'int',
                 'length': 1,
-                'default': 2, # 1 = CPF / 2 = CNPJ
+                'default': 2,  # 1 = CPF / 2 = CNPJ
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
+                'required': False,
                 'start': 17,
                 'end': 18,
                 'value': None,
@@ -115,12 +84,12 @@ class SlipHeader(SegmentSection):
                 'end': 32,
                 'value': None,
             },
-            'company_document_whites': {
+            'inscription_number_whites': {
                 'type': 'whites',
                 'length': 20,
-                'default': ' ',
+                'default': '',
                 'pad_content': ' ',
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
                 'start': 32,
                 'end': 52,
@@ -129,7 +98,7 @@ class SlipHeader(SegmentSection):
             'agency': {
                 'type': 'int',
                 'length': 5,
-                'default': 0,
+                'default': '',
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
@@ -140,9 +109,9 @@ class SlipHeader(SegmentSection):
             'agency_whites': {
                 'type': 'whites',
                 'length': 1,
-                'default': ' ',
+                'default': '',
                 'pad_content': ' ',
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
                 'start': 57,
                 'end': 58,
@@ -151,7 +120,7 @@ class SlipHeader(SegmentSection):
             'account': {
                 'type': 'int',
                 'length': 12,
-                'default': 0,
+                'default': '',
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': True,
@@ -162,7 +131,7 @@ class SlipHeader(SegmentSection):
             'account_whites': {
                 'type': 'whites',
                 'length': 1,
-                'default': ' ',
+                'default': '',
                 'pad_content': ' ',
                 'pad_direction': 'left',
                 'required': False,
@@ -170,7 +139,7 @@ class SlipHeader(SegmentSection):
                 'end': 71,
                 'value': None,
             },
-            'dac': {
+            'dac': {  # bank account digit
                 'type': 'int',
                 'length': 1,
                 'default': 0,
@@ -192,10 +161,10 @@ class SlipHeader(SegmentSection):
                 'end': 102,
                 'value': None,
             },
-            'lot_goal': {
+            'bank_name': {
                 'type': 'string',
                 'length': 30,
-                'default': '',
+                'default': 'BANCO ITAU SA',
                 'pad_content': ' ',
                 'pad_direction': 'right',
                 'required': False,
@@ -203,103 +172,101 @@ class SlipHeader(SegmentSection):
                 'end': 132,
                 'value': None,
             },
-            'account_history': {
-                'type': 'string',
+            'bank_name_whites': {
+                'type': 'whites',
                 'length': 10,
                 'default': '',
                 'pad_content': ' ',
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
                 'start': 132,
                 'end': 142,
                 'value': None,
             },
-            'company_address_street': {
-                'type': 'string',
-                'length': 30,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': True,
+            'file_code': {
+                'type': 'int',
+                'length': 1,
+                'default': 1,  # 1 - Shipping / 2 - Return
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
                 'start': 142,
-                'end': 172,
+                'end': 143,
                 'value': None,
             },
-            'company_address_number': {
+            'generation_date': {
+                'type': 'date',
+                'length': 8,
+                'default': datetime.utcnow().strftime(self.default_date_format) if os.getenv('UNITTESTING') != '1' else '01012019',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+                'start': 143,
+                'end': 151,
+                'value': None,
+            },
+            'generation_hour': {
+                'type': 'date',
+                'length': 6,
+                'default': datetime.utcnow().strftime(self.default_time_format) if os.getenv('UNITTESTING') != '1' else '000000',
+                'pad_content': ' ',
+                'pad_direction': 'left',
+                'required': False,
+                'start': 151,
+                'end': 157,
+                'value': None,
+            },
+            'generation_zeros': {
+                'type': 'int',
+                'length': 9,
+                'default': 0,
+                'pad_content': 0,
+                'pad_direction': 'left',
+                'required': False,
+                'start': 157,
+                'end': 166,
+                'value': None,
+            },
+            'density_unit': {
                 'type': 'int',
                 'length': 5,
                 'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
-                'required': True,
-                'start': 172,
-                'end': 177,
-                'value': None,
-            },
-            'company_address_complement': {
-                'type': 'string',
-                'length': 15,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
                 'required': False,
-                'start': 177,
-                'end': 192,
+                'start': 166,
+                'end': 171,
                 'value': None,
             },
-            'company_address_city': {
-                'type': 'string',
-                'length': 20,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': True,
-                'start': 192,
-                'end': 212,
-                'value': None,
-            },
-            'company_address_zipcode': {
-                'type': 'int',
-                'length': 8,
-                'default': 0,
-                'pad_content': 0,
-                'pad_direction': 'left',
-                'required': True,
-                'start': 212,
-                'end': 220,
-                'value': None,
-            },
-            'company_address_state': {
-                'type': 'string',
-                'length': 2,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': True,
-                'start': 220,
-                'end': 222,
-                'value': None,
-            },
-            'company_address_whites': {
+            'density_unit_whites': {
                 'type': 'whites',
-                'length': 8,
+                'length': 69,
                 'default': ' ',
                 'pad_content': ' ',
-                'pad_direction': 'right',
+                'pad_direction': 'left',
                 'required': False,
-                'start': 222,
-                'end': 230,
-                'value': None,
-            },
-            'occurrences': {
-                'type': 'string',
-                'length': 10,
-                'default': '',
-                'pad_content': ' ',
-                'pad_direction': 'right',
-                'required': False,
-                'start': 230,
+                'start': 171,
                 'end': 240,
                 'value': None,
             },
         })
+
+    def set_company_data(self, company):
+        if not company:
+            raise Exception('Company cannot be None')
+        
+        super().set_data(dict(
+            company_document_type=self.bank.get_company_document_id(company.document_type),
+            company_document_number=company.document,
+            agency=company.bank_account.agency,
+            account=company.bank_account.account,
+            dac=company.bank_account.digit,
+            company_name=company.name,
+        ))
+    
+    def extract_company(self):
+        company = Company(self.attributes['company_name'].value, self.attributes['company_document_number'].value)
+        company.set_bank_acccount(self.attributes['bank_code'].value, self.attributes['agency'].value,
+                                  self.attributes['account'].value, self.attributes['dac'].value)
+
+        return company

@@ -1,7 +1,6 @@
-from datetime import datetime
+from pg_cnab240.banks.Itau.segments.footers.slip_footer import SlipFooter
+from pg_cnab240.banks.Itau.segments.headers.slip_header import SlipHeader
 from pg_cnab240.segment_section import SegmentSection
-from pg_cnab240.banks.itau.segments.headers.slip_header import SlipHeader
-from pg_cnab240.banks.itau.segments.footers.slip_footer import SlipFooter
 
 
 class SegmentJ(SegmentSection):
@@ -183,7 +182,7 @@ class SegmentJ(SegmentSection):
                 'end': 129,
                 'value': None,
             },
-            'additions': { # forfeit + interest amounts
+            'additions': {  # forfeit + interest amounts
                 'type': 'float',
                 'length': 15,
                 'default': 0,
@@ -271,4 +270,14 @@ class SegmentJ(SegmentSection):
                 'end': 240,
                 'value': None,
             },
-        }, SlipHeader, SlipFooter)
+        }, None, None)
+
+
+class SegmentJHeader(SegmentSection):
+    def __init__(self, data=None):
+        super().__init__('SegmentJ', data, None, SlipHeader, None)
+
+
+class SegmentJFooter(SegmentSection):
+    def __init__(self, data=None):
+        super().__init__('SegmentJ', data, None, None, SlipFooter)

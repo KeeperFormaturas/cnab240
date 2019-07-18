@@ -33,7 +33,6 @@ class Company:
         self.zipcode = zipcode
         self.country = country
     
-    def get_company_document_type(self, document_number):
-        if len(str(document_number)) == 14:
-            return 'cnpj'
-        return 'cpf'
+    @staticmethod
+    def get_company_document_type(document_number):
+        return 'cnpj' if len(str(document_number)) == 14 else 'cpf'

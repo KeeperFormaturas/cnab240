@@ -1,4 +1,3 @@
-from datetime import datetime
 from pg_cnab240.segment_section import SegmentSection
 
 

@@ -1,17 +1,20 @@
-from pydoc import locate
 from datetime import datetime
+from enum import Enum
 from pg_cnab240.payment import Payment
+from pydoc import locate
 import os
 import random
 
 
 class File:
-    def __init__(self, bank, company=None, payments=[]):
+    def __init__(self, bank, company=None, payments=None):
+        if payments is None:
+            payments = []
         self.company = company
         self.payments = payments
 
         self.banks_codes = {
-            '341': 'itau',
+            '341': 'Itau',
         }
 
         self.bank = self.import_bank(bank)
@@ -22,10 +25,11 @@ class File:
         self.lines = []
         self.line_cursor = 0
     
-    def import_bank(self, bank):
-        bankClassFile =  locate('pg_cnab240.banks.' + bank + '.' + bank)
-        bankClass = getattr(bankClassFile, bank)
-        return bankClass()
+    @staticmethod
+    def import_bank(bank):
+        bank_class_file = locate('pg_cnab240.banks.' + bank + '.' + bank)
+        bank_class = getattr(bank_class_file, bank)
+        return bank_class()
         
     def get_bank_name_by_code(self, bank_code):
         return self.banks_codes[str(bank_code)]
@@ -47,98 +51,81 @@ class File:
     def process_payments(self):
         for payment in self.payments:
             register_number = 1
-            
-            # get bank payment segment
-            payment_segment = self.bank.get_payment_segment(payment.get_attribute('type'))
-            segment = payment_segment['segment_class']()
+            payment_segments = self.bank.get_payment_segment(payment.get_attribute('type'))
+            for _segment in payment_segments:
+                segment = _segment['segment_class']()
+                segment.set_bank(self.bank)
+                segment.set_company(self.company)
 
-            # set bank and company
-            segment.set_bank(self.bank)
-            segment.set_company(self.company)
+                segment_data = payment.attributes
+                payment_type = payment.get_attribute('type')
+                payment_type = payment_type if not issubclass(type(payment_type), Enum) else payment_type.name
+                segment_data['payment_way'] = _segment['payment_types'][payment_type]
 
-            # attr payment attributes
-            segment_data = payment.attributes
-            segment_data['payment_way'] = payment_segment['payment_types'][payment.get_attribute('type')]
-            
-            # set custom segment attributes
-            segment_data['lot_code'] = self.lots_quantity
-            segment_data['register_number'] = register_number
-            segment.set_data(segment_data)
+                segment_data['lot_code'] = self.lots_quantity
+                segment_data['register_number'] = register_number
+                segment.set_data(segment_data)
 
-            # check header
-            if hasattr(segment, 'get_header_line'):
-                self.body.append(segment.get_header_line())
-            
-            self.body.append(segment.to_line())
+                if hasattr(segment, 'get_header_line') and hasattr(segment, 'header'):
+                    self.body.append(segment.get_header_line())
 
-            # check footer
-            if hasattr(segment, 'get_footer_line'):
-                self.body.append(segment.get_footer_line())
+                if hasattr(segment, 'attributes') and segment.attributes is not None:
+                    self.body.append(segment.to_line())
 
-            # increment lots_quantity
+                if hasattr(segment, 'get_footer_line') and hasattr(segment, 'footer'):
+
+                    self.body.append(segment.get_footer_line())
+
             self.lots_quantity += 1
+            register_number += 1
 
     def generate(self, file_path=None, file_name=None):
         self.verify()
-
-        # add header line
         self.lines.append(self.header.to_line())
-
-        # process payments
         self.process_payments()
 
         for line in self.body:
             self.lines.append(line)
 
-        # populate footer
         self.footer.set_data(dict(
-            lots_quantity = self.lots_quantity - 1,
-            registers_quantity = ((self.lots_quantity - 1) * 3) + 2,
+            lots_quantity=self.lots_quantity - 1,
+            registers_quantity=len(self.lines) + 1,
         ))
-
-        # add footer line
         self.lines.append(self.footer.to_line())
-
         if file_path:
             return self.save_file(file_path, file_name)
 
         return True
     
     def read_file_content(self, file_content=""):
+        self.payments = []
         if not file_content:
             raise Exception('File content cannot be empty.')
-        
-        # split file in lines
+
         self.lines = file_content.splitlines()
 
         line_index = 0
         payment_header_line = None
         for line in self.lines:
             if line_index == 0:
-                # header
                 self.header.set_attributes_from_line(line)
                 if hasattr(self.header, 'extract_company'):
                     self.company = self.header.extract_company()
             elif line_index == (len(self.lines) - 1):
-                # footer
                 self.footer.set_attributes_from_line(line)
-                pass
             else:
-                # payments
                 if line[8] == 'C':
                     payment_header_line = line
-                if line[8] != 'C' and line[8] != ' ':
-                    # get payment segment data
+                elif line[8] != 'C' and line[8] != ' ':
                     payment_segment_data = self.bank.identify_payment_segment(line, payment_header_line)
                     if not payment_segment_data:
                         raise Exception('Cannot identify payment segment: ' + payment_header_line + ', ' + line)
-                    
-                    # get segment class
+
                     segment_class = payment_segment_data['segment_class']
                     payment_segment = segment_class()
                     payment_segment.set_attributes_from_line(line)
                     
-                    payment = Payment()
+                    payment = Payment(payments_status=self.bank.get_payments_status())
                     for attr_name, attr_value in payment_segment.get_dict().items():
                         payment.set_attribute(attr_name, attr_value)
                     
@@ -147,15 +134,9 @@ class File:
             line_index += 1
     
     def get_content(self):
-        content = ""
-        for line in self.lines:
-            if content:
-                content += "\n"
-            content += line
-        return content
+        return '\r\n'.join('%s' % line for line in self.lines) + '\r\n'
     
     def save_file(self, file_path, file_name):
-        # check file name
         if not file_name:
             file_name = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S_") + str(random.randint(0, 10000) * 5) + '.rem'
         
@@ -173,13 +154,13 @@ class File:
         line = ""
 
         if append_line_break and self.line_cursor > 0:
-            line += "\n"
+            line += "\r\n"
         
         line += self.lines[self.line_cursor]
         
         self.line_cursor += 1
         return line
     
-    def read(self, file_content):
+    def read(self):
         self.verify()
         pass

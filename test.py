@@ -1,6 +1,9 @@
-from tests.ItauFileTestCase import ItauFileTestCase
+import os
 import unittest
 
 
 if __name__ == '__main__':
-	unittest.main()
+	os.environ['UNITTESTING'] = '1'
+
+	tests = unittest.TestLoader().discover('./Tests')
+	unittest.TextTestRunner(verbosity=2).run(tests)
