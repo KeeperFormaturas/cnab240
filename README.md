@@ -2,7 +2,7 @@
 
 Pacote para processamento de arquivos bancários CNAB 240.
 
-    pip install pg-cnab240
+    pip install keeper-cnab240
     
 #### Bancos Implementados
 | Banco | Remessa | Retorno |
