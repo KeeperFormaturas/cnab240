@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pg_cnab240",
-    version="v0.0.1-beta",
+    version="0.0.beta1",
     author="Keeper Formaturas",
     author_email="ola@keeperformaturas.com.br",
     description="A CNAB 240 Package to process Bank payment shipping files and return files.",
