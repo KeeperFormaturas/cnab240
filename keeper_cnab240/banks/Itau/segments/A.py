@@ -1,6 +1,6 @@
-from pg_cnab240.segment_section import SegmentSection
-from pg_cnab240.banks.Itau.segments.headers.transfer_header import TransferHeader
-from pg_cnab240.banks.Itau.segments.footers.transfer_footer import TransferFooter
+from keeper_cnab240.segment_section import SegmentSection
+from keeper_cnab240.banks.Itau.segments.headers.transfer_header import TransferHeader
+from keeper_cnab240.banks.Itau.segments.footers.transfer_footer import TransferFooter
 
 
 class SegmentA(SegmentSection):

@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from pg_cnab240.payment import Payment
+from keeper_cnab240.payment import Payment
 from pydoc import locate
 import os
 import random
@@ -27,7 +27,7 @@ class File:
     
     @staticmethod
     def import_bank(bank):
-        bank_class_file = locate('pg_cnab240.banks.' + bank + '.' + bank)
+        bank_class_file = locate('keeper_cnab240.banks.' + bank + '.' + bank)
         bank_class = getattr(bank_class_file, bank)
         return bank_class()
         

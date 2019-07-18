@@ -1,6 +1,6 @@
 from datetime import datetime
-from pg_cnab240.file_section import FileSection
-from pg_cnab240.company import Company
+from keeper_cnab240.file_section import FileSection
+from keeper_cnab240.company import Company
 import os
 
 

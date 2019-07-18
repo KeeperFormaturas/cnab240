@@ -1,4 +1,4 @@
-from pg_cnab240.banks.bank_account import BankAccount
+from keeper_cnab240.banks.bank_account import BankAccount
 
 
 class Company:

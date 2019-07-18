@@ -1,4 +1,4 @@
-from pg_cnab240.segment_section import SegmentSection
+from keeper_cnab240.segment_section import SegmentSection
 
 
 class SegmentJ52(SegmentSection):

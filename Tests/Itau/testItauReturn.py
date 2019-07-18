@@ -1,4 +1,4 @@
-from pg_cnab240.file import File
+from keeper_cnab240.file import File
 import os
 import unittest
 

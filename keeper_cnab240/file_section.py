@@ -1,5 +1,5 @@
 import json
-from pg_cnab240.attribute import Attribute
+from keeper_cnab240.attribute import Attribute
 
 
 class FileSection:

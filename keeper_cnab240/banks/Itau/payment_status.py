@@ -1,4 +1,4 @@
-from pg_cnab240.payment import StatusModel
+from keeper_cnab240.payment import StatusModel
 
 
 class PaymentStatus:

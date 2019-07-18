@@ -1,4 +1,4 @@
-from pg_cnab240.company import Company
+from keeper_cnab240.company import Company
 
 company = Company('BF Servicos De Cobranca Ltda', '07179434000140')
 company.set_bank_acccount(341, '0772', '69637', 3)

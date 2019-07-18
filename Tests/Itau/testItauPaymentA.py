@@ -1,7 +1,7 @@
 from .ItauUtils import company, company_j
-from pg_cnab240.banks.Itau.payment_methods import PaymentMethods
-from pg_cnab240.file import File
-from pg_cnab240.payment import Payment
+from keeper_cnab240.banks.Itau.payment_methods import PaymentMethods
+from keeper_cnab240.file import File
+from keeper_cnab240.payment import Payment
 import os
 import Tests.Utils as Utils
 import unittest

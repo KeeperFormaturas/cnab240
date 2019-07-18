@@ -1,12 +1,12 @@
-from pg_cnab240.banks.bank import Bank
-from pg_cnab240.banks.Itau.file_header import FileHeader
-from pg_cnab240.banks.Itau.file_footer import FileFooter
-from pg_cnab240.banks.Itau.payment_methods import PaymentMethods
-from pg_cnab240.banks.Itau.payment_status import PaymentStatus
-from pg_cnab240.banks.Itau.segments.A import SegmentA, SegmentAFooter, SegmentAHeader
-from pg_cnab240.banks.Itau.segments.ANF import SegmentANF
-from pg_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
-from pg_cnab240.banks.Itau.segments.J52 import SegmentJ52
+from keeper_cnab240.banks.bank import Bank
+from keeper_cnab240.banks.Itau.file_header import FileHeader
+from keeper_cnab240.banks.Itau.file_footer import FileFooter
+from keeper_cnab240.banks.Itau.payment_methods import PaymentMethods
+from keeper_cnab240.banks.Itau.payment_status import PaymentStatus
+from keeper_cnab240.banks.Itau.segments.A import SegmentA, SegmentAFooter, SegmentAHeader
+from keeper_cnab240.banks.Itau.segments.ANF import SegmentANF
+from keeper_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
+from keeper_cnab240.banks.Itau.segments.J52 import SegmentJ52
 
 
 class Itau(Bank):
