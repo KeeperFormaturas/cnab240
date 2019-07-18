@@ -113,7 +113,7 @@ class PaymentStatus:
     TI = StatusModel(False, 'info', 'INVALID_OWNERSHIP')
     X1 = StatusModel(False, 'info', 'INVALID_LAYOUT_010')
     X2 = StatusModel(False, 'info', 'INVALID_INVOICE')
-    X3 = StatusModel(False, 'info', 'INVALID_DOCUMENT_IDENTIFIES')
+    X3 = StatusModel(False, 'info', 'INVALID_DOCUMENT_IDENTIFIER')
     X4 = StatusModel(False, 'info', 'INVALID_FORM_32')
 
     def __init__(self, value):
