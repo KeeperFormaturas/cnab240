@@ -1,27 +1,18 @@
-# pg-cnab240
+# keeper-cnab240
 
-Pacote para processamento de arquivos bancários CNAB 240.
+CNAB-240 file pattern for brazilian banking financial integration.
 
     pip install keeper-cnab240
     
-#### Bancos Implementados
-| Banco | Remessa | Retorno |
-| ----- | ------- | ------- |
-| Itau / Sispag | Beta | Beta |
+### Available Banks
+| Bank | Shipment | Return | Segments |
+| ---- | -------- | ------ | -------- |
+| Itau / Sispag | Beta | Beta | A, J/J-52 |
 
-### REQUISITOS
+### Requirements
 - Python 3.6+
 
-### Como configurar o VirtualEnv
-1. ```$ pip install --upgrade virtualenv```
-2. ```$ python -m virtualenv <path_to_env_folder>```
-3. Para ativar o virtualenv:
+### Dependency Installation
 ```bash
-> *Linux*: $ source <path_to_env_folder>/bin/activate
-> *Windows*: $ source <path_to_env_folder>/Scripts/activate
-```
-
-### Instalar dependências
-```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```

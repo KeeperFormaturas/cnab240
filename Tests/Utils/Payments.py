@@ -1,0 +1,41 @@
+from keeper_cnab240.payment import Payment
+from .Companies import company, company_j
+
+
+def payments(payment_method_a=None, payment_method_j=None):
+    return {'J': Payment(type=payment_method_j,
+                         favored_name=company_j.name,
+                         favored_bank=company_j.bank_account.bank_code,
+                         agency=company.bank_account.agency,
+                         account=company.bank_account.account,
+                         account_digit=company.bank_account.digit,
+                         pay_date='05072019',
+                         slip_number='23790296029000127055375000108102379410000102941',
+                         due_date='05072019',
+                         title_amount=1029.41,
+                         payment_amount=1029.41,
+                         your_number='12345678901234567890',
+                         recipient_document_type=2,
+                         recipient_document_number=20093235000182,
+                         recipient_name=company_j.name),
+            'A1': Payment(type=payment_method_a,
+                          favored_name=company_j.name,
+                          favored_bank=company_j.bank_account.bank_code,
+                          agency=company.bank_account.agency,
+                          account=company.bank_account.account,
+                          account_digit=company.bank_account.digit,
+                          your_number='n1U0fXg4Tl2RLotU0YQ8',
+                          pay_date='01012019',
+                          payment_amount=2400.00,
+                          favored_document_number=company_j.document),
+            'A2': Payment(type=payment_method_a,
+                          favored_name=company_j.name,
+                          favored_bank=company_j.bank_account.bank_code,
+                          agency=company.bank_account.agency,
+                          account=company.bank_account.account,
+                          account_digit=company.bank_account.digit,
+                          your_number='n1U0fXg4Tl2RLotU0YQ8',
+                          pay_date='01012019',
+                          payment_amount=1500.00,
+                          favored_document_number=company_j.document)
+            }
