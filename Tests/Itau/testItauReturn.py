@@ -20,8 +20,9 @@ class TestItauReturn(unittest.TestCase):
         payment_file.read_file_content(file_content)
 
         assert len(payment_file.payments) == 1
-        assert payment_file.payments[0].status().is_error is False
-        assert payment_file.payments[0].status().is_processed is True
+        assert len(payment_file.payments[0].status()) == 1
+        assert payment_file.payments[0].status()[0].is_error is False
+        assert payment_file.payments[0].status()[0].is_processed is True
         assert payment_file.payments[0].get_attribute('amount') == '0000102941'
 
 
