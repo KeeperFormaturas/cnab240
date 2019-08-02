@@ -117,11 +117,14 @@ class Payment:
         return True
 
     def status(self):
-        occurrences = self.get_attribute('occurrences') if self.get_attribute('occurrences') not in (0, 00, '00')\
-            else 'ZEROS'
+        occurrences = list(map(lambda x: self.get_attribute('occurrences')[x-2:x], list(range(2, 12, 2))))
+        response = []
+        for occ in occurrences:
+            occ = occ if occ not in (0, 00, '00') else 'ZEROS'
+            if len(occ) >= 2 and self.PaymentsStatus is not None and hasattr(self.PaymentsStatus, occ):
+                response.append(self.PaymentsStatus(occ).get())
 
-        return occurrences if self.PaymentsStatus is None or not hasattr(self.PaymentsStatus, occurrences)\
-            else self.PaymentsStatus(occurrences).get()
+        return response
 
 
 class StatusModel:
