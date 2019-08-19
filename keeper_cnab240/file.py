@@ -117,7 +117,7 @@ class File:
                 if line[8] == 'C':
                     payment_header_line = line
                 elif line[8] != 'C' and line[8] != ' ':
-                    payment_segment_data = self.bank.identify_payment_segment(line, payment_header_line)
+                    payment_segment_data = self.bank.identify_payment_segment(line)
                     if not payment_segment_data:
                         raise Exception('Cannot identify payment segment: ' + payment_header_line + ', ' + line)
 

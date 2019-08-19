@@ -53,7 +53,7 @@ class Bank:
             return self.available_segments[payment_type]
         raise Exception('Payment Type not Found')
 
-    def identify_payment_segment(self, payment_line, payment_header_line):
+    def identify_payment_segment(self, payment_line):
         if not self.segment_position_identifier or not self.segment_header_identifier_name:
             return None
 
