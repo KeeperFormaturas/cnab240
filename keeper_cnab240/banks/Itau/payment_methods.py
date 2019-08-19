@@ -12,8 +12,11 @@ class PaymentMethods(Enum):
     DARF_NORMAL = '16'
     DARF_SIMPLES = '18'
     DARJ = '21'
+    DOC = '03'
     DOC_C = '03'
     DOC_D = '07'
+    DOC_MESMO_TITULAR = '07'
+    DOC_OUTRO_TITULAR = '03'
     DPVAT = '27'
     FGTS = '35'
     GARE_SP = '22'
@@ -70,3 +73,15 @@ class PaymentMethods(Enum):
             for (k, v) in PaymentMethods.__dict__.items()
             if hasattr(v, 'value') and v.value in PaymentMethods.j_segments()
         }
+
+    @staticmethod
+    def transfer_methods():
+        return ['01', '03', '06', '07', '41', '43']
+
+    @staticmethod
+    def transfer_doc_methods():
+        return ['03', '07']
+
+    @staticmethod
+    def transfer_ted_methods():
+        return ['41', '43']
