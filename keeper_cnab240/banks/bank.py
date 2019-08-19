@@ -1,4 +1,6 @@
 from enum import Enum
+from keeper_cnab240.company import Company
+from keeper_cnab240.payment import Payment
 
 
 class Bank:
@@ -73,3 +75,6 @@ class Bank:
 
     def get_payments_types(self):
         return self.payment_types
+
+    def verify_payment(self, payment: Payment, company: Company):
+        return payment
