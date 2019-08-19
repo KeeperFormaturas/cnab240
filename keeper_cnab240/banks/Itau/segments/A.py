@@ -64,7 +64,7 @@ class SegmentA(SegmentSection):
             'move_type': {
                 'type': 'int',
                 'length': 3,
-                'default': '000',
+                'default': 0,
                 'pad_content': 0,
                 'pad_direction': 'left',
                 'required': False,
