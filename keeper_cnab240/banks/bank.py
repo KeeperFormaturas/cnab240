@@ -1,9 +1,11 @@
 from enum import Enum
+from keeper_cnab240.company import Company
+from keeper_cnab240.payment import Payment
 
 
 class Bank:
     def __init__(self, name, slug, code, segment_position_identifier=None, segment_identifier_length=1,
-                 segment_header_identifier_name=None, payments_status=None):
+                 segment_header_identifier_name=None, payments_status=None, payment_types=None):
         self.name = name
         self.slug = slug
         self.code = code
@@ -12,6 +14,7 @@ class Bank:
         self.segment_identifier_length = segment_identifier_length
         self.segment_header_identifier_name = segment_header_identifier_name
         self.payments_status = payments_status
+        self.payment_types = payment_types
 
     def set_segment(self, segment_name, segment_class, payment_types=None, segment_alias=None, shipping_only=False):
         if payment_types is None:
@@ -53,7 +56,7 @@ class Bank:
             return self.available_segments[payment_type]
         raise Exception('Payment Type not Found')
 
-    def identify_payment_segment(self, payment_line, payment_header_line):
+    def identify_payment_segment(self, payment_line):
         if not self.segment_position_identifier or not self.segment_header_identifier_name:
             return None
 
@@ -69,3 +72,9 @@ class Bank:
 
     def get_payments_status(self):
         return self.payments_status
+
+    def get_payments_types(self):
+        return self.payment_types
+
+    def verify_payment(self, payment: Payment, company: Company):
+        return payment

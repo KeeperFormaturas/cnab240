@@ -45,7 +45,8 @@ class File:
             raise Exception('Header and Footer cannot be None')
         return True
     
-    def add_payment(self, payment):
+    def add_payment(self, payment: Payment):
+        payment = self.bank.verify_payment(payment, self.company)
         self.payments.append(payment)
     
     def process_payments(self):
@@ -73,7 +74,6 @@ class File:
                     self.body.append(segment.to_line())
 
                 if hasattr(segment, 'get_footer_line') and hasattr(segment, 'footer'):
-
                     self.body.append(segment.get_footer_line())
 
             self.lots_quantity += 1
@@ -117,7 +117,7 @@ class File:
                 if line[8] == 'C':
                     payment_header_line = line
                 elif line[8] != 'C' and line[8] != ' ':
-                    payment_segment_data = self.bank.identify_payment_segment(line, payment_header_line)
+                    payment_segment_data = self.bank.identify_payment_segment(line)
                     if not payment_segment_data:
                         raise Exception('Cannot identify payment segment: ' + payment_header_line + ', ' + line)
 
@@ -160,7 +160,3 @@ class File:
         
         self.line_cursor += 1
         return line
-    
-    def read(self):
-        self.verify()
-        pass
