@@ -50,7 +50,7 @@ class Itau(Bank):
     def verify_payment(self, payment: Payment, company: Company):
         payment = super().verify_payment(payment, company)
         if payment.get_attribute('type').value in PaymentMethods.transfer_methods():
-            same_bank = payment.get_attribute('favored_bank') == self.bank_code
+            same_bank = int(payment.get_attribute('favored_bank')) == int(self.bank_code)
             same_owner = payment.get_attribute('favored_document_number') == company.document
             cur_payment_type = payment.get_attribute('type').value
             new_payment_type = None
