@@ -125,7 +125,7 @@ class SlipHeader(SegmentSection):
                 'end': 52,
                 'value': None,
             },
-            'agency': {
+            'company_agency': {
                 'type': 'int',
                 'length': 5,
                 'default': 0,
@@ -136,7 +136,7 @@ class SlipHeader(SegmentSection):
                 'end': 57,
                 'value': None,
             },
-            'agency_whites': {
+            'company_agency_whites': {
                 'type': 'whites',
                 'length': 1,
                 'default': ' ',
@@ -147,7 +147,7 @@ class SlipHeader(SegmentSection):
                 'end': 58,
                 'value': None,
             },
-            'account': {
+            'company_account': {
                 'type': 'int',
                 'length': 12,
                 'default': 0,
@@ -158,7 +158,7 @@ class SlipHeader(SegmentSection):
                 'end': 70,
                 'value': None,
             },
-            'account_whites': {
+            'company_account_whites': {
                 'type': 'whites',
                 'length': 1,
                 'default': ' ',
@@ -169,7 +169,7 @@ class SlipHeader(SegmentSection):
                 'end': 71,
                 'value': None,
             },
-            'dac': {
+            'company_dac': {
                 'type': 'int',
                 'length': 1,
                 'default': 0,

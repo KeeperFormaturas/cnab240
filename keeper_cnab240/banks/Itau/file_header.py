@@ -95,7 +95,7 @@ class FileHeader(FileSection):
                 'end': 52,
                 'value': None,
             },
-            'agency': {
+            'company_agency': {
                 'type': 'int',
                 'length': 5,
                 'default': '',
@@ -106,7 +106,7 @@ class FileHeader(FileSection):
                 'end': 57,
                 'value': None,
             },
-            'agency_whites': {
+            'company_agency_whites': {
                 'type': 'whites',
                 'length': 1,
                 'default': '',
@@ -117,7 +117,7 @@ class FileHeader(FileSection):
                 'end': 58,
                 'value': None,
             },
-            'account': {
+            'company_account': {
                 'type': 'int',
                 'length': 12,
                 'default': '',
@@ -128,7 +128,7 @@ class FileHeader(FileSection):
                 'end': 70,
                 'value': None,
             },
-            'account_whites': {
+            'company_account_whites': {
                 'type': 'whites',
                 'length': 1,
                 'default': '',
@@ -139,7 +139,7 @@ class FileHeader(FileSection):
                 'end': 71,
                 'value': None,
             },
-            'dac': {  # bank account digit
+            'company_dac': {  # bank account digit
                 'type': 'int',
                 'length': 1,
                 'default': 0,
@@ -258,15 +258,17 @@ class FileHeader(FileSection):
         super().set_data(dict(
             company_document_type=self.bank.get_company_document_id(company.document_type),
             company_document_number=company.document,
-            agency=company.bank_account.agency,
-            account=company.bank_account.account,
-            dac=company.bank_account.digit,
+            company_agency=company.bank_account.agency,
+            company_account=company.bank_account.account,
+            company_dac=company.bank_account.digit,
             company_name=company.name,
         ))
     
     def extract_company(self):
         company = Company(self.attributes['company_name'].value, self.attributes['company_document_number'].value)
-        company.set_bank_acccount(self.attributes['bank_code'].value, self.attributes['agency'].value,
-                                  self.attributes['account'].value, self.attributes['dac'].value)
+        company.set_bank_acccount(self.attributes['bank_code'].value,
+                                  self.attributes['company_agency'].value,
+                                  self.attributes['company_account'].value,
+                                  self.attributes['company_dac'].value)
 
         return company

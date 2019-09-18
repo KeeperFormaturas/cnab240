@@ -399,9 +399,9 @@ class SegmentA(SegmentSection):
 
 class SegmentAHeader(SegmentSection):
     def __init__(self, data=None):
-        super().__init__('SegmentJ', data, None, TransferHeader, None)
+        super().__init__('SegmentA', data, None, TransferHeader, None)
 
 
 class SegmentAFooter(SegmentSection):
     def __init__(self, data=None):
-        super().__init__('SegmentJ', data, None, None, TransferFooter)
+        super().__init__('SegmentA', data, None, None, TransferFooter)

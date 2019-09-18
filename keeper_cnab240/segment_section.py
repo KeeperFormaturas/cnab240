@@ -14,9 +14,9 @@ class SegmentSection(FileSection):
         self.company = company
         self.data['company_document_type'] = self.bank.get_company_document_id(company.document_type)
         self.data['company_document_number'] = company.document
-        self.data['agency'] = company.bank_account.agency
-        self.data['account'] = company.bank_account.account
-        self.data['dac'] = company.bank_account.digit
+        self.data['company_agency'] = company.bank_account.agency
+        self.data['company_account'] = company.bank_account.account
+        self.data['company_dac'] = company.bank_account.digit
         self.data['company_name'] = company.name
         self.data['company_address_street'] = company.street
         self.data['company_address_number'] = company.number
