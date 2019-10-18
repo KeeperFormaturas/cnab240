@@ -33,7 +33,7 @@ class Attribute:
         elif self.type == 'string':
             self.value = str(new_value)
         elif self.type == 'float':
-            self.value = int(round(float(new_value), 2) * 100) if (type(new_value) is not str) else int(new_value)
+            self.value = int(format(float(new_value), '.2f').replace('.', '')) if (type(new_value) is not str) else int(new_value)
         elif self.type == 'whites':
             self.value = ' '
         elif self.type == 'zeros':
