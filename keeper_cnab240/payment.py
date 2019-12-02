@@ -101,11 +101,11 @@ class Payment:
             raise Exception('Invalid slip number')
 
     def validate_dv(self):
-        digits = str(self.attributes['favored_bank']) +\
-            str(self.attributes['currency_type']) +\
-            str(self.attributes['due_rule']) +\
-            self.attributes['amount_slip_original'] +\
-            self.attributes['free_field_slip_original']
+        digits = str(self.attributes['favored_bank']).rjust(3, '0') +\
+            str(self.attributes['currency_type']).rjust(1, '0') +\
+            str(self.attributes['due_rule']).rjust(4, '0') +\
+            self.attributes['amount_slip_original'].rjust(10, '0') +\
+            self.attributes['free_field_slip_original'].rjust(25, '0')
 
         calculate = map(lambda x, y: x * y, (([2, 3, 4, 5, 6, 7, 8, 9] * 6)[0:43])[::-1], [int(e) for e in digits])
         final = reduce(lambda x, acc: x + acc, calculate)
