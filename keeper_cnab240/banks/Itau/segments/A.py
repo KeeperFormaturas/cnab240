@@ -150,7 +150,7 @@ class SegmentA(SegmentSection):
                 'value': None,
             },
             'account_digit': {
-                'type': 'int',
+                'type': 'string',
                 'length': 1,
                 'default': 0,
                 'pad_content': 0,
