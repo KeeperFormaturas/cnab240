@@ -85,3 +85,11 @@ class PaymentMethods(Enum):
     @staticmethod
     def transfer_ted_methods():
         return ['41', '43']
+    
+    @staticmethod
+    def segment_z():
+        return {
+            k: v.value
+            for (k, v) in PaymentMethods.__dict__.items()
+            if hasattr(v, 'value') and v.value in PaymentMethods.transfer_methods()
+        }

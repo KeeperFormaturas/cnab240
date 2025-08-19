@@ -27,7 +27,7 @@ class TestItauPaymentA(unittest.TestCase):
         file_hash = hash_file(body_big_file_path, True)
         os.remove(body_big_file_path)
 
-        assert 'b31957cda8950105f0e659b9ed70ecc01ef1aee253e59d56d3596d6ffc6aed93' == file_hash
+        assert 'c18667af379b1522b163170b7e8825540fe3f162365cef78cce91bbf5c92c56b' == file_hash
 
 
 if __name__ == '__main__':

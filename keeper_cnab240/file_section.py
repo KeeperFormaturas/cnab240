@@ -26,7 +26,7 @@ class FileSection:
                 self.attributes[attr] = Attribute(attr, data['type'], data['length'], data['start'], data['end'],
                                                   data['default'], data['pad_content'], data['pad_direction'],
                                                   data['required'])
-    
+
     def associate_data(self):
         if self.data:
             if self.bank:

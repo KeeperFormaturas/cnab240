@@ -8,6 +8,7 @@ from keeper_cnab240.banks.Itau.segments.A import SegmentA, SegmentAFooter, Segme
 from keeper_cnab240.banks.Itau.segments.ANF import SegmentANF
 from keeper_cnab240.banks.Itau.segments.J import SegmentJ, SegmentJFooter, SegmentJHeader
 from keeper_cnab240.banks.Itau.segments.J52 import SegmentJ52
+from keeper_cnab240.banks.Itau.segments.Z import SegmentZ
 from keeper_cnab240.company import Company
 from keeper_cnab240.exceptions.InvalidPaymentMethod import InvalidPaymentMethod
 from keeper_cnab240.payment import Payment
@@ -32,6 +33,9 @@ class Itau(Bank):
         super().set_segment('J', SegmentJ, PaymentMethods.segment_j())
         super().set_segment('J52', SegmentJ52, PaymentMethods.segment_j(), shipping_only=True)
         super().set_segment('JFooter', SegmentJFooter, PaymentMethods.segment_j(), shipping_only=True)
+        
+        # Segment Z
+        super().set_segment('Z', SegmentZ, PaymentMethods.segment_z())
     
     def get_file_header(self):
         file_header = FileHeader()
@@ -49,6 +53,8 @@ class Itau(Bank):
 
     def verify_payment(self, payment: Payment, company: Company):
         payment = super().verify_payment(payment, company)
+        payment.validate_j52_required_fields()
+
         if payment.get_attribute('type').value in PaymentMethods.transfer_methods():
             same_bank = int(payment.get_attribute('favored_bank')) == int(self.bank_code)
             same_owner = payment.get_attribute('favored_document_number') == company.document

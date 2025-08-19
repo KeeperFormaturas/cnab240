@@ -18,7 +18,7 @@ class Payment:
             account=None,
             account_digit=None,
             our_number=None,
-            currency_type='REA',
+            currency_type="REA",
             your_number=None,
             ispb_code=None,
             goal_detail=None,
@@ -53,18 +53,48 @@ class Payment:
             payee_document_type=None,
             payee_document_number=None,
             payee_name=None,
-            slip_number=None
+            slip_number=None,
         )
 
         kwargs_keys = kwargs.keys()
-        if 'slip_number' in kwargs_keys and kwargs['slip_number'] is not None:
-            self.parse_slip(kwargs['slip_number'])
+        if "slip_number" in kwargs_keys and kwargs["slip_number"] is not None:
+            self.parse_slip(kwargs["slip_number"])
 
         for attr_name in self.attributes.keys():
             if attr_name in kwargs_keys:
                 self.attributes[attr_name] = kwargs[attr_name]
 
         self.PaymentsStatus = payments_status
+
+    def validate_j52_required_fields(self):
+        """
+        Valida se os campos obrigatórios do Segmento J52 estão preenchidos
+        Conforme especificação: campos do cedente são obrigatórios
+        """
+        if (
+            hasattr(self, "attributes")
+            and "slip_number" in self.attributes
+            and self.attributes["slip_number"]
+        ):
+            required_fields = [
+                ("recipient_document_type", "Tipo de inscrição do cedente"),
+                ("recipient_document_number", "Número de inscrição do cedente"),
+                ("recipient_name", "Nome do cedente"),
+            ]
+
+            missing_fields = []
+            for field_name, field_desc in required_fields:
+                if field_name not in self.attributes or not self.attributes[field_name]:
+                    missing_fields.append(f"{field_desc} ({field_name})")
+
+            if missing_fields:
+                raise Exception(
+                    f"Campos obrigatórios do Segmento J52 não preenchidos: {', '.join(missing_fields)}. "
+                    "Estes campos são obrigatórios para pagamentos de boleto e sua ausência "
+                    "causará rejeição 'BI' no banco conforme especificação Itaú."
+                )
+
+        return True
 
     def get_attribute(self, attr_name):
         if attr_name in self.attributes.keys():
@@ -84,44 +114,73 @@ class Payment:
         return json.dumps(self.get_attributes())
 
     def parse_slip(self, slip_number):
-        clean_number = re.sub('[^0-9]', '', str(slip_number))
+        clean_number = re.sub("[^0-9]", "", str(slip_number))
         num_len = len(clean_number)
 
         if num_len == 44 or num_len == 47:
-            self.attributes['favored_bank'] = int(clean_number[0:3])
-            self.attributes['currency_type'] = int(clean_number[3:4])
-            self.attributes['dv'] = int(clean_number[4:5] if num_len == 44 else clean_number[32:33])
-            self.attributes['due_rule'] = int(clean_number[5:9] if num_len == 44 else clean_number[33:37])
-            self.attributes['amount_slip_original'] = clean_number[9:19] if num_len == 44 else clean_number[37:47]
-            self.attributes['amount'] = float(self.attributes['amount_slip_original'])/100
-            self.attributes['free_field_slip_original'] = clean_number[19:44] if num_len == 44 else clean_number[4:9] + clean_number[10:20] + clean_number[21:31]
-            self.attributes['free_field'] = int(self.attributes['free_field_slip_original'])
+            self.attributes["favored_bank"] = int(clean_number[0:3])
+            self.attributes["currency_type"] = int(clean_number[3:4])
+            self.attributes["dv"] = int(
+                clean_number[4:5] if num_len == 44 else clean_number[32:33]
+            )
+            self.attributes["due_rule"] = int(
+                clean_number[5:9] if num_len == 44 else clean_number[33:37]
+            )
+            self.attributes["amount_slip_original"] = (
+                clean_number[9:19] if num_len == 44 else clean_number[37:47]
+            )
+            self.attributes["amount"] = (
+                float(self.attributes["amount_slip_original"]) / 100
+            )
+            self.attributes["free_field_slip_original"] = (
+                clean_number[19:44]
+                if num_len == 44
+                else clean_number[4:9] + clean_number[10:20] + clean_number[21:31]
+            )
+            self.attributes["free_field"] = int(
+                self.attributes["free_field_slip_original"]
+            )
             self.validate_dv()
         else:
-            raise Exception('Invalid slip number')
+            raise Exception("Invalid slip number")
 
     def validate_dv(self):
-        digits = str(self.attributes['favored_bank']).rjust(3, '0') +\
-            str(self.attributes['currency_type']).rjust(1, '0') +\
-            str(self.attributes['due_rule']).rjust(4, '0') +\
-            self.attributes['amount_slip_original'].rjust(10, '0') +\
-            self.attributes['free_field_slip_original'].rjust(25, '0')
+        digits = (
+            str(self.attributes["favored_bank"]).rjust(3, "0")
+            + str(self.attributes["currency_type"]).rjust(1, "0")
+            + str(self.attributes["due_rule"]).rjust(4, "0")
+            + self.attributes["amount_slip_original"].rjust(10, "0")
+            + self.attributes["free_field_slip_original"].rjust(25, "0")
+        )
 
-        calculate = map(lambda x, y: x * y, (([2, 3, 4, 5, 6, 7, 8, 9] * 6)[0:43])[::-1], [int(e) for e in digits])
+        calculate = map(
+            lambda x, y: x * y,
+            (([2, 3, 4, 5, 6, 7, 8, 9] * 6)[0:43])[::-1],
+            [int(e) for e in digits],
+        )
         final = reduce(lambda x, acc: x + acc, calculate)
         mod = final % 11
         dv = 11 - mod if 1 < mod < 10 else 1
-        if dv != self.attributes['dv']:
-            raise Exception('Invalid DV number')
+        if dv != self.attributes["dv"]:
+            raise Exception("Invalid DV number")
 
         return True
 
     def status(self):
-        occurrences = list(map(lambda x: self.get_attribute('occurrences')[x-2:x], list(range(2, 12, 2))))
+        occurrences = list(
+            map(
+                lambda x: self.get_attribute("occurrences")[x - 2 : x],
+                list(range(2, 12, 2)),
+            )
+        )
         response = []
         for occ in occurrences:
-            occ = occ if occ not in (0, 00, '00') else 'ZEROS'
-            if len(occ) >= 2 and self.PaymentsStatus is not None and hasattr(self.PaymentsStatus, occ):
+            occ = occ if occ not in (0, 00, "00") else "ZEROS"
+            if (
+                len(occ) >= 2
+                and self.PaymentsStatus is not None
+                and hasattr(self.PaymentsStatus, occ)
+            ):
                 response.append(self.PaymentsStatus(occ).get())
 
         return response
