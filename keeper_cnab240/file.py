@@ -114,6 +114,8 @@ class File:
 
         line_index = 0
         payment_header_line = None
+        current_payment = None
+        
         for line in self.lines:
             if line_index == 0:
                 self.header.set_attributes_from_line(line)
@@ -124,6 +126,7 @@ class File:
             else:
                 if line[8] == "C":
                     payment_header_line = line
+                    current_payment = None
                 elif line[8] != "C" and line[8] != " ":
                     payment_segment_data = self.bank.identify_payment_segment(line)
                     if not payment_segment_data:
@@ -137,12 +140,27 @@ class File:
                     segment_class = payment_segment_data["segment_class"]
                     payment_segment = segment_class()
                     payment_segment.set_attributes_from_line(line)
+                    
+                    segment_dict = payment_segment.get_dict()
+                    segment_code = segment_dict.get('segment_code', line[13:14])
 
-                    payment = Payment(payments_status=self.bank.get_payments_status())
-                    for attr_name, attr_value in payment_segment.get_dict().items():
-                        payment.set_attribute(attr_name, attr_value)
-
-                    self.payments.append(payment)
+                    if segment_code == 'Z' and current_payment:
+                        z_your_number = str(segment_dict.get('your_number', '')).strip()
+                        payment_your_number_attr = current_payment.get_attribute('your_number')
+                        payment_your_number = str(payment_your_number_attr).strip() if payment_your_number_attr else ''
+                        if z_your_number == payment_your_number:
+                            for attr_name, attr_value in segment_dict.items():
+                                current_payment.set_attribute(attr_name, attr_value)
+                        else:
+                            z_payment = Payment(payments_status=self.bank.get_payments_status())
+                            for attr_name, attr_value in segment_dict.items():
+                                z_payment.set_attribute(attr_name, attr_value)
+                            self.payments.append(z_payment)
+                    else:
+                        current_payment = Payment(payments_status=self.bank.get_payments_status())
+                        for attr_name, attr_value in segment_dict.items():
+                            current_payment.set_attribute(attr_name, attr_value)
+                        self.payments.append(current_payment)
 
             line_index += 1
 

@@ -73,7 +73,7 @@ class SegmentZ(SegmentSection):
                     "end": 78,
                     "value": None,
                 },
-                "company_document_number": {
+                "your_number": {
                     "type": "string",
                     "length": 20,
                     "default": "",
